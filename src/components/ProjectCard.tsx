@@ -104,8 +104,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 </span>
               </div>
 
-              {/* Center Play Button (Plays video in this exact space!) */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+              {/* Center Play Button (Visible on mobile touchscreens, hover-revealed on desktop) */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 z-20">
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.12 }}
@@ -226,8 +226,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               </div>
             </div>
 
-            {/* Center Play Button (Plays video directly in this space!) */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* Center Play Button (Visible on mobile touchscreens, hover-revealed on desktop) */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.12 }}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { ProjectItem } from '../types';
 import { INITIAL_PROJECTS } from '../data/projects';
 import { getEffectiveThumbnail } from '../utils/videoUtils';
@@ -19,7 +19,7 @@ interface PortfolioContextType {
   importProjectsJSON: (jsonStr: string) => boolean;
 }
 
-const STORAGE_KEY = 'clipslab_portfolio_projects_v2';
+const STORAGE_KEY = 'clipslab_portfolio_projects_v3';
 const SHOWREEL_VIDEO_KEY = 'clipslab_showreel_video_url_v2';
 const SHOWREEL_THUMB_KEY = 'clipslab_showreel_thumb_url_v2';
 
@@ -65,14 +65,13 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return getEffectiveThumbnail(savedVideo, savedThumb || undefined);
   });
 
-  // Persist projects to localStorage
-  useEffect(() => {
+  const persistProjects = (nextProjects: ProjectItem[]) => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextProjects));
     } catch (e) {
       console.warn('Failed to save portfolio to localStorage', e);
     }
-  }, [projects]);
+  };
 
   const setShowreelVideoUrl = (url: string) => {
     setShowreelVideoUrlState(url);
@@ -92,6 +91,14 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
+  const updateAndPersist = (updater: (prev: ProjectItem[]) => ProjectItem[]) => {
+    setProjects((prev) => {
+      const next = updater(prev);
+      persistProjects(next);
+      return next;
+    });
+  };
+
   const addProject = (newProjectData: Omit<ProjectItem, 'id' | 'slug'>) => {
     const id = `project-${Date.now()}`;
     const slug = newProjectData.title
@@ -105,11 +112,11 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       slug: slug || id,
     };
 
-    setProjects((prev) => [newProject, ...prev]);
+    updateAndPersist((prev) => [newProject, ...prev]);
   };
 
   const updateProject = (id: string, updatedFields: Partial<ProjectItem>) => {
-    setProjects((prev) =>
+    updateAndPersist((prev) =>
       prev.map((proj) => {
         if (proj.id !== id) return proj;
         const merged = { ...proj, ...updatedFields };
@@ -121,11 +128,11 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const deleteProject = (id: string) => {
-    setProjects((prev) => prev.filter((proj) => proj.id !== id));
+    updateAndPersist((prev) => prev.filter((proj) => proj.id !== id));
   };
 
   const moveProject = (currentIndex: number, targetIndex: number) => {
-    setProjects((prev) => {
+    updateAndPersist((prev) => {
       if (
         currentIndex < 0 ||
         currentIndex >= prev.length ||
@@ -142,7 +149,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const swapProjects = (idA: string, idB: string) => {
-    setProjects((prev) => {
+    updateAndPersist((prev) => {
       const indexA = prev.findIndex((p) => p.id === idA);
       const indexB = prev.findIndex((p) => p.id === idB);
       if (indexA === -1 || indexB === -1) return prev;
@@ -178,6 +185,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const parsed = JSON.parse(jsonStr);
       if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].title) {
         setProjects(parsed);
+        persistProjects(parsed);
         return true;
       }
     } catch (err) {
