@@ -70,6 +70,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     showreelThumbnail,
     setShowreelThumbnail,
     exportProjectsJSON,
+    syncToServer,
+    isSyncing,
+    lastSyncedAt,
   } = usePortfolio();
 
   const [activeTab, setActiveTab] = useState<'all' | 'showreel' | 'vertical' | 'widescreen' | 'add' | 'export'>('all');
@@ -266,7 +269,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     reader.readAsDataURL(file);
   };
 
-  const handleSaveProject = (proj: ProjectItem) => {
+  const handleSaveProject = async (proj: ProjectItem) => {
     const url = (editingUrls[proj.id] !== undefined ? editingUrls[proj.id] : proj.fullVideoUrl || proj.videoPreviewUrl || '').trim();
     const title = (editingTitles[proj.id] !== undefined ? editingTitles[proj.id] : proj.title || '').trim();
     let thumb = (editingThumbs[proj.id] !== undefined ? editingThumbs[proj.id] : proj.thumbnail || '').trim();
@@ -300,13 +303,25 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     }
 
     updateProject(proj.id, updatedFields);
-    showToast(`✅ Saved changes & thumbnail for "${title}"!`);
+
+    const updatedProjects = projects.map((p) => {
+      if (p.id !== proj.id) return p;
+      return { ...p, ...updatedFields };
+    });
+
+    showToast('💾 Saving live to website...');
+    const ok = await syncToServer(showreelVideoUrl, showreelThumbnail, updatedProjects);
+    if (ok) {
+      showToast(`🚀 Saved "${title}" live to website for all visitors!`);
+    } else {
+      showToast(`✅ Saved changes & thumbnail for "${title}"!`);
+    }
   };
 
   // Backward compatibility alias
   const handleSaveProjectVideoUrl = handleSaveProject;
 
-  const handleSaveShowreel = (e: React.FormEvent) => {
+  const handleSaveShowreel = async (e: React.FormEvent) => {
     e.preventDefault();
     const url = tempShowreelUrl.trim();
     if (!url) {
@@ -314,7 +329,6 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       return;
     }
 
-    const parsed = parseVideoUrl(url);
     setShowreelVideoUrl(url);
 
     let thumb = tempShowreelThumb.trim();
@@ -322,10 +336,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setShowreelThumbnail(thumb);
     setTempShowreelThumb(thumb);
 
-    showToast('✅ Featured Showreel video & thumbnail updated successfully!');
+    showToast('💾 Saving live to website...');
+    const ok = await syncToServer(url, thumb, projects);
+    if (ok) {
+      showToast('🚀 Showreel video updated live on website for all visitors!');
+    } else {
+      showToast('✅ Featured Showreel video & thumbnail updated successfully!');
+    }
   };
 
-  const handleCreateNewVideo = (e: React.FormEvent) => {
+  const handleCreateNewVideo = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newVideoUrl.trim()) {
       showToast('⚠️ Title and Video URL are required');
@@ -335,7 +355,12 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     let thumb = newThumbnail.trim();
     thumb = getEffectiveThumbnail(newVideoUrl.trim(), thumb);
 
-    addProject({
+    const id = `project-${Date.now()}`;
+    const slug = newTitle.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+    const newProjItem: ProjectItem = {
+      id,
+      slug: slug || id,
       title: newTitle.trim(),
       format: newFormat,
       aspectRatio: newFormat,
@@ -351,7 +376,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       thumbnail: thumb,
       featured: true,
       accentColor: newFormat === '9:16' ? '#FF0054' : '#AAFF00',
-    });
+    };
+
+    addProject(newProjItem);
+    const nextList = [newProjItem, ...projects];
+    syncToServer(showreelVideoUrl, showreelThumbnail, nextList);
 
     showToast(`🎉 Added new ${newFormat} video: "${newTitle}"!`);
     setNewTitle('');
@@ -562,6 +591,29 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            {/* Live Server Sync Button */}
+            <button
+              onClick={async () => {
+                showToast('💾 Syncing all video links live to website...');
+                const ok = await syncToServer();
+                if (ok) {
+                  showToast('🚀 Live website updated with all video changes!');
+                } else {
+                  showToast('⚠️ Changes saved locally (server sync fallback).');
+                }
+              }}
+              disabled={isSyncing}
+              className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border transition-all flex items-center gap-2 cursor-pointer ${
+                isSyncing
+                  ? 'bg-neutral-500/10 border-neutral-500/30 text-neutral-400'
+                  : 'bg-[#AAFF00]/10 border-[#AAFF00]/50 text-[#AAFF00] hover:bg-[#AAFF00]/20'
+              }`}
+              title="Push all video links and showreel directly to the live website"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#AAFF00] animate-pulse" />
+              <span>{isSyncing ? 'Syncing...' : 'Live Sync'}</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('add')}
               className="px-5 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider bg-[#FF0054] text-white hover:bg-[#e0004a] transition-all flex items-center gap-2 shadow-md cursor-pointer"

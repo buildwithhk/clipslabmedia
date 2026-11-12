@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { ProjectItem } from '../types';
 import { INITIAL_PROJECTS } from '../data/projects';
 import { getEffectiveThumbnail } from '../utils/videoUtils';
+import { GOOGLE_SCRIPT_URL } from '../config/contact';
 
 interface PortfolioContextType {
   projects: ProjectItem[];
@@ -17,6 +18,13 @@ interface PortfolioContextType {
   setShowreelThumbnail: (url: string) => void;
   exportProjectsJSON: () => string;
   importProjectsJSON: (jsonStr: string) => boolean;
+  syncToServer: (
+    customShowreelUrl?: string,
+    customShowreelThumb?: string,
+    customProjects?: ProjectItem[]
+  ) => Promise<boolean>;
+  isSyncing: boolean;
+  lastSyncedAt: string | null;
 }
 
 const STORAGE_KEY = 'clipslab_portfolio_projects_v3';
@@ -64,6 +72,131 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const savedVideo = localStorage.getItem(SHOWREEL_VIDEO_KEY) || '/assets/sample-reel.mp4';
     return getEffectiveThumbnail(savedVideo, savedThumb || undefined);
   });
+
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+
+  // Keep fresh references for async sync operations
+  const projectsRef = useRef(projects);
+  const showreelVideoUrlRef = useRef(showreelVideoUrl);
+  const showreelThumbRef = useRef(showreelThumbnail);
+
+  useEffect(() => {
+    projectsRef.current = projects;
+  }, [projects]);
+
+  useEffect(() => {
+    showreelVideoUrlRef.current = showreelVideoUrl;
+  }, [showreelVideoUrl]);
+
+  useEffect(() => {
+    showreelThumbRef.current = showreelThumbnail;
+  }, [showreelThumbnail]);
+
+  // Fetch live videos from server on initial website mount
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchLiveVideos = async () => {
+      try {
+        const response = await fetch('/api/videos.php', { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (!isMounted || !data || data.status !== 'success') return;
+
+        if (data.showreelVideoUrl && typeof data.showreelVideoUrl === 'string') {
+          setShowreelVideoUrlState(data.showreelVideoUrl);
+          localStorage.setItem(SHOWREEL_VIDEO_KEY, data.showreelVideoUrl);
+        }
+
+        if (data.showreelThumbnail && typeof data.showreelThumbnail === 'string') {
+          setShowreelThumbnailState(data.showreelThumbnail);
+          localStorage.setItem(SHOWREEL_THUMB_KEY, data.showreelThumbnail);
+        }
+
+        if (Array.isArray(data.projects) && data.projects.length > 0) {
+          const mapped = data.projects.map((item: any) => {
+            const videoUrl = item.fullVideoUrl || item.videoPreviewUrl || '';
+            return {
+              ...item,
+              format: item.format || (item.aspectRatio === '9:16' || item.aspectRatio === 'portrait' ? '9:16' : '16:9'),
+              aspectRatio: item.format || item.aspectRatio || '16:9',
+              thumbnail: getEffectiveThumbnail(videoUrl, item.thumbnail),
+            };
+          });
+          setProjects(mapped);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
+        }
+
+        setLastSyncedAt(new Date().toLocaleTimeString());
+      } catch {
+        // Fallback silently to localStorage / INITIAL_PROJECTS when running locally without PHP
+      }
+    };
+
+    fetchLiveVideos();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const syncToServer = async (
+    customShowreelUrl?: string,
+    customShowreelThumb?: string,
+    customProjects?: ProjectItem[]
+  ): Promise<boolean> => {
+    const urlToSave = customShowreelUrl !== undefined ? customShowreelUrl : showreelVideoUrlRef.current;
+    const thumbToSave = customShowreelThumb !== undefined ? customShowreelThumb : showreelThumbRef.current;
+    const projectsToSave = customProjects !== undefined ? customProjects : projectsRef.current;
+
+    setIsSyncing(true);
+    let success = false;
+
+    try {
+      const response = await fetch('/api/videos.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          showreelVideoUrl: urlToSave,
+          showreelThumbnail: thumbToSave,
+          projects: projectsToSave,
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result && result.status === 'success') {
+          success = true;
+          setLastSyncedAt(new Date().toLocaleTimeString());
+        }
+      }
+    } catch (err) {
+      console.warn('Sync to /api/videos.php failed (expected in local dev mode):', err);
+    }
+
+    // Secondary Cloud Backup: Google Apps Script Webhook (if configured)
+    if (GOOGLE_SCRIPT_URL) {
+      try {
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'savePortfolio',
+            showreelVideoUrl: urlToSave,
+            showreelThumbnail: thumbToSave,
+            projects: projectsToSave,
+          }),
+        }).catch(() => {});
+      } catch {}
+    }
+
+    setIsSyncing(false);
+    return success;
+  };
 
   const persistProjects = (nextProjects: ProjectItem[]) => {
     try {
@@ -210,6 +343,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setShowreelThumbnail,
         exportProjectsJSON,
         importProjectsJSON,
+        syncToServer,
+        isSyncing,
+        lastSyncedAt,
       }}
     >
       {children}
