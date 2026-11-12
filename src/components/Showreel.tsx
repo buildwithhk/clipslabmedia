@@ -106,10 +106,10 @@ export const Showreel: React.FC<ShowreelProps> = ({ onOpenFullScreen }) => {
 
         {/* Video Player Container with Rich Atmospheric Drop Shadow & In/Out Animations */}
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.94 }}
+          initial={{ opacity: 0, y: 30, scale: 0.96 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.25 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           whileHover={{ y: -6, transition: { duration: 0.35, ease: 'easeOut' } }}
           className="relative max-w-2xl lg:max-w-[720px] mx-auto group"
         >
@@ -243,11 +243,18 @@ export const Showreel: React.FC<ShowreelProps> = ({ onOpenFullScreen }) => {
                   )
                 ) : showreelVideoUrl ? (
               /* Native video player with custom controls */
-              <>
+              <motion.div
+                key="native-player"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="relative w-full h-full"
+              >
                 <video
                   ref={videoRef}
                   src={showreelVideoUrl}
                   poster={posterImage}
+                  preload="metadata"
                   loop
                   muted={isMuted}
                   playsInline
@@ -319,7 +326,7 @@ export const Showreel: React.FC<ShowreelProps> = ({ onOpenFullScreen }) => {
                     </button>
                   </div>
                 </div>
-              </>
+              </motion.div>
             ) : (
               <div className="p-8 text-center space-y-3">
                 <Video className="w-12 h-12 mx-auto text-neutral-500 animate-pulse" />
