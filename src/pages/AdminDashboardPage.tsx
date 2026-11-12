@@ -109,28 +109,72 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSavingCreds, setIsSavingCreds] = useState(false);
 
   // Security Credentials Update Modal State
   const [isCredsModalOpen, setIsCredsModalOpen] = useState(false);
   const [newUserId, setNewUserId] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
-
-    const validIds = ['admin', 'harsh', 'clipslab'];
-    const customUid = localStorage.getItem('clipslab_admin_uid');
-    if (customUid) {
-      validIds.push(customUid.toLowerCase());
-    }
-
-    const savedPassword = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
 
     const inputId = loginUserId.trim().toLowerCase();
     const inputPwd = loginPassword.trim();
 
-    if (!validIds.includes(inputId) || inputPwd !== savedPassword) {
+    setIsLoggingIn(true);
+    let authenticated = false;
+
+    // 1. Try verifying credentials directly against server backend
+    try {
+      const res = await fetch('/api/auth.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'login',
+          userId: inputId,
+          password: inputPwd,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.status === 'success') {
+          authenticated = true;
+          if (data.userId) {
+            localStorage.setItem('clipslab_admin_uid', data.userId);
+          }
+          localStorage.setItem('clipslab_admin_pwd', inputPwd);
+        }
+      } else if (res.status === 401) {
+        setIsLoggingIn(false);
+        setLoginError('Invalid User ID or Password. Please try again.');
+        return;
+      }
+    } catch {
+      // Backend unreachable (e.g. offline or local Vite dev without PHP)
+    }
+
+    // 2. Fallback to localStorage / default credentials if backend was unreachable
+    if (!authenticated) {
+      const validIds = ['admin', 'harsh', 'clipslab'];
+      const customUid = localStorage.getItem('clipslab_admin_uid');
+      if (customUid) {
+        validIds.push(customUid.toLowerCase());
+      }
+
+      const savedPassword = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
+
+      if (validIds.includes(inputId) && inputPwd === savedPassword) {
+        authenticated = true;
+      }
+    }
+
+    setIsLoggingIn(false);
+
+    if (!authenticated) {
       setLoginError('Invalid User ID or Password. Please try again.');
       return;
     }
@@ -152,18 +196,54 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     onExit();
   };
 
-  const handleSaveNewCredentials = (e: React.FormEvent) => {
+  const handleSaveNewCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPassword.trim()) {
+    const cleanPwd = newPassword.trim();
+    const cleanUid = (newUserId.trim() || 'admin').toLowerCase();
+
+    if (!cleanPwd) {
       showToast('⚠️ Password cannot be empty.');
       return;
     }
-    if (newUserId.trim()) {
-      localStorage.setItem('clipslab_admin_uid', newUserId.trim().toLowerCase());
+
+    setIsSavingCreds(true);
+    showToast('💾 Saving credentials to backend server...');
+
+    let savedOnServer = false;
+    try {
+      const res = await fetch('/api/auth.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update',
+          newUserId: cleanUid,
+          newPassword: cleanPwd,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.status === 'success') {
+          savedOnServer = true;
+        }
+      }
+    } catch (err) {
+      console.warn('Backend credentials save failed (fallback to local):', err);
     }
-    localStorage.setItem('clipslab_admin_pwd', newPassword.trim());
+
+    // Always keep local storage updated
+    localStorage.setItem('clipslab_admin_uid', cleanUid);
+    localStorage.setItem('clipslab_admin_pwd', cleanPwd);
+    setNewUserId(cleanUid);
+    setNewPassword(cleanPwd);
+    setIsSavingCreds(false);
     setIsCredsModalOpen(false);
-    showToast('✅ Administrator credentials updated successfully!');
+
+    if (savedOnServer) {
+      showToast('🚀 Administrator credentials saved permanently on backend server!');
+    } else {
+      showToast('✅ Administrator credentials updated locally.');
+    }
   };
 
   const showToast = (msg: string) => {
@@ -532,10 +612,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
               <button
                 type="submit"
-                className="w-full mt-2 py-3 rounded-full text-xs font-heading font-bold uppercase tracking-wider bg-[#FF0054] text-white hover:bg-[#e0004a] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#FF0054]/25 cursor-pointer"
+                disabled={isLoggingIn}
+                className="w-full mt-2 py-3 rounded-full text-xs font-heading font-bold uppercase tracking-wider bg-[#FF0054] text-white hover:bg-[#e0004a] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#FF0054]/25 cursor-pointer disabled:opacity-60"
               >
                 <Unlock className="w-4 h-4 stroke-[2.5]" />
-                <span>Unlock Video Dashboard</span>
+                <span>{isLoggingIn ? 'Verifying Credentials...' : 'Unlock Video Dashboard'}</span>
               </button>
 
               <button
@@ -624,10 +705,32 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
             {/* Security / Change Credentials Button */}
             <button
-              onClick={() => {
-                setNewUserId(localStorage.getItem('clipslab_admin_uid') || 'admin');
-                setNewPassword(localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026');
+              onClick={async () => {
+                const currentUid = localStorage.getItem('clipslab_admin_uid') || 'admin';
+                const currentPwd = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
+                setNewUserId(currentUid);
+                setNewPassword(currentPwd);
                 setIsCredsModalOpen(true);
+
+                // Fetch latest saved credentials live from server backend
+                try {
+                  const res = await fetch('/api/auth.php');
+                  if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.status === 'success') {
+                      if (data.userId) {
+                        setNewUserId(data.userId);
+                        localStorage.setItem('clipslab_admin_uid', data.userId);
+                      }
+                      if (data.password) {
+                        setNewPassword(data.password);
+                        localStorage.setItem('clipslab_admin_pwd', data.password);
+                      }
+                    }
+                  }
+                } catch {
+                  // Fallback to local storage values
+                }
               }}
               className={`px-4 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer ${
                 isLight
@@ -1640,8 +1743,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     isLight ? 'bg-[#F7F6F2] border-[#E2DDD5]' : 'bg-[#1E1E1E] border-white/10 text-white'
                   }`}
                 />
-                <p className="mt-1 text-[10px] font-mono text-neutral-400">
-                  Credentials are saved locally in your browser storage.
+                <p className="mt-1 text-[10px] font-mono text-[#AAFF00] flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>Credentials are saved permanently to your server backend and update across all devices.</span>
                 </p>
               </div>
 
@@ -1655,10 +1759,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-full text-xs font-heading font-bold uppercase bg-[#FF0054] text-white hover:bg-[#e0004a] transition-colors cursor-pointer flex items-center gap-1.5"
+                  disabled={isSavingCreds}
+                  className="px-5 py-2 rounded-full text-xs font-heading font-bold uppercase bg-[#FF0054] text-white hover:bg-[#e0004a] transition-colors cursor-pointer flex items-center gap-1.5 disabled:opacity-60"
                 >
                   <Save className="w-3.5 h-3.5" />
-                  <span>Save Credentials</span>
+                  <span>{isSavingCreds ? 'Saving to Server...' : 'Save Credentials'}</span>
                 </button>
               </div>
             </form>
