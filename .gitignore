@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output (generated automatically in CI onto the `deploy` branch)
+dist/
+
+# Local environment overrides
+.env
+.env.local
+.env.*.local
+
+# Local scratch scripts
+scratch/
+
+# Logs & OS files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db

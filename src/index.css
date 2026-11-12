@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root, html.light {
+    --bg-main: #F7F6F2;           /* Warm white / ivory primary */
+    --bg-secondary: #EFECE6;      /* Soft warm neutral surface */
+    --bg-surface: #FFFFFF;        /* Crisp white card surface */
+    --bg-card: #FFFFFF;           /* Card background */
+    --text-main: #121212;         /* Deep charcoal / near black */
+    --text-muted: #5E5A53;        /* Muted warm grey */
+    --border-color: #E2DDD5;      /* Hairline warm border */
+    --border-hover: #121212;
+    --brand-primary: #121212;     /* Editorial deep black */
+    --brand-primary-hover: #262626;
+    --brand-primary-text: #FFFFFF;
+    --brand-highlight: #FF0054;   /* Hot Pink highlight */
+    --brand-lime: #AAFF00;        /* Subtle electric lime */
+    --selection-bg: #121212;
+    --selection-text: #FFFFFF;
+  }
+
+  html.dark {
+    --bg-main: #080808;           /* Deep cinematic obsidian */
+    --bg-secondary: #0E0E0E;      /* Midnight surface */
+    --bg-surface: #121212;        /* Dark card surface */
+    --bg-card: #151515;
+    --text-main: #FFFFFF;         /* Crisp white */
+    --text-muted: #A3A3A3;        /* Muted gray */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-hover: #AAFF00;
+    --brand-primary: #AAFF00;     /* Electric Lime */
+    --brand-primary-hover: #B8FF1F;
+    --brand-primary-text: #080808;
+    --brand-highlight: #FF0054;   /* Hot Pink */
+    --brand-lime: #AAFF00;
+    --selection-bg: #AAFF00;
+    --selection-text: #080808;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'DM Sans', 'Inter', -apple-system, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-text);
+  }
+}
+
+/* Serif editorial styling */
+.font-editorial-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+/* Organic sand/film grain texture overlay */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.085;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='sandNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.12 0 0 0 0 0.12 0 0 0 0 0.12 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23sandNoise)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+html.dark .grain-overlay {
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}
+
+/* Architectural grid background */
+.bg-studio-grid {
+  background-image: 
+    linear-gradient(to right, rgba(18, 18, 18, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 18, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+html.dark .bg-studio-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.bg-radial-ambient {
+  background: radial-gradient(circle at 50% 0%, rgba(18, 18, 18, 0.04) 0%, transparent 70%);
+}
+
+html.dark .bg-radial-ambient {
+  background: radial-gradient(circle at 50% 0%, rgba(170, 255, 0, 0.08) 0%, transparent 60%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: #C4BEB5;
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #262626;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
+}
+
+/* Kinetic ticker */
+@keyframes marquee-ticker {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-ticker {
+  display: flex;
+  width: max-content;
+  animation: marquee-ticker 30s linear infinite;
+}
+
+.animate-marquee-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Action buttons */
+.btn-brand-primary {
+  background-color: var(--brand-primary);
+  color: var(--brand-primary-text);
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-brand-primary:hover {
+  background-color: var(--brand-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+html.dark .btn-brand-primary:hover {
+  box-shadow: 0 0 25px rgba(170, 255, 0, 0.35);
+}
+
+.btn-brand-secondary {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+.btn-brand-secondary:hover {
+  border-color: var(--text-main);
+  transform: translateY(-1px);
+}
