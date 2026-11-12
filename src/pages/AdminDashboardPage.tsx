@@ -522,21 +522,6 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <span>Return to Website</span>
               </button>
             </form>
-
-            {/* Default credentials note for Harsh */}
-            <div
-              className={`mt-6 pt-5 border-t text-[11px] font-mono leading-relaxed ${
-                isLight ? 'border-[#E2DDD5] text-[#7D766D]' : 'border-white/10 text-neutral-500'
-              }`}
-            >
-              <div className="flex items-center gap-1.5 text-xs font-bold uppercase mb-1">
-                <KeyRound className="w-3.5 h-3.5 text-[#AAFF00]" />
-                <span>Default Credentials</span>
-              </div>
-              <p>User ID: <code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-bold text-[#FF0054]">admin</code> or <code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-bold text-[#FF0054]">harsh</code></p>
-              <p className="mt-1">Password: <code className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 font-bold text-[#AAFF00]">clipslab2026</code></p>
-              <p className="mt-1.5 opacity-75 text-[10px]">You can change these credentials anytime from the security settings once logged in.</p>
-            </div>
           </div>
         </div>
       </div>

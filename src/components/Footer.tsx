@@ -112,7 +112,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenProjectModal }
 
           {/* Col 3: Social Channels (3 cols) */}
           <div className="lg:col-span-3 space-y-3 pt-1">
-            <p className="font-heading font-bold text-xs uppercase tracking-widest text-[#AAFF00] dark:text-[#AAFF00]">
+            <p className="font-heading font-bold text-xs uppercase tracking-widest text-[#FF0054]">
               Social Channels
             </p>
             <ul className="space-y-2.5 text-xs font-mono uppercase tracking-wider">
