@@ -51,9 +51,9 @@ export const AboutFounder: React.FC<AboutFounderProps> = ({
           <div className="lg:col-span-4 flex justify-center lg:justify-start">
             <div className="relative w-full max-w-[320px] sm:max-w-[340px] aspect-[4/5] rounded-3xl overflow-hidden bg-[#1E1E1E] shadow-xl border border-[#E2DDD5] dark:border-white/15 group">
               <img
-                src="/assets/harsh-kumar.jpg"
+                src="/assets/harsh-kumar.jpg?v=2"
                 alt="Harsh Kumar — Founder, AI Filmmaker & Video Editor"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
             </div>
           </div>
