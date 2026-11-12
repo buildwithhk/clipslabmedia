@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { openDirectEmail } from '../utils/emailUtils';
 
 interface FinalCTAProps {
   onStartProject: () => void;
@@ -87,8 +88,9 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
             <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
           </button>
 
-          <a
-            href="mailto:contact@clipslabmedia.com"
+          <button
+            type="button"
+            onClick={() => openDirectEmail('contact@clipslabmedia.com')}
             className={`w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-heading font-medium uppercase tracking-wider cursor-pointer border transition-all ${
               isLight
                 ? 'bg-white border-[#E5E0D8] text-[#171717] hover:border-[#171717]'
@@ -97,7 +99,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
           >
             <Mail className={`w-4 h-4 ${isLight ? 'text-[#390099]' : 'text-[#AAFF00]'}`} />
             <span>Direct Email Studio</span>
-          </a>
+          </button>
         </div>
 
         {/* Contact Assurance */}

@@ -3,6 +3,7 @@ import { Mail, Send, CheckCircle2, ArrowUpRight, Copy, Check } from 'lucide-reac
 import { InstagramIcon, LinkedinIcon, YoutubeIcon } from './SocialIcons';
 import { useTheme } from '../context/ThemeContext';
 import { PROJECT_TYPES, STUDIO_CONTACT_EMAIL } from '../config/contact';
+import { openDirectEmail } from '../utils/emailUtils';
 import { useInquiryForm } from '../hooks/useInquiryForm';
 import { InquiryErrorBanner } from './InquiryErrorBanner';
 
@@ -282,16 +283,17 @@ export const ContactSection: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2 pt-1.5">
-                <a
-                  href={`mailto:${directEmail}`}
-                  className={`flex-1 py-2.5 px-4 rounded-full text-xs font-mono uppercase font-bold text-center border transition-all ${
+                <button
+                  type="button"
+                  onClick={() => openDirectEmail(directEmail)}
+                  className={`flex-1 py-2.5 px-4 rounded-full text-xs font-mono uppercase font-bold text-center border transition-all cursor-pointer ${
                     isLight
                       ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-xs'
                       : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
                   }`}
                 >
                   Send Direct Email
-                </a>
+                </button>
 
                 <button
                   type="button"
