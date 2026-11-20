@@ -5,7 +5,7 @@ import { Cpu, Video, Music, Scissors, Sparkles } from 'lucide-react';
 
 const categoryIcons: Record<string, React.ReactNode> = {
   'AI & Generative Tools': <Cpu className="w-4 h-4 text-[#FF0054]" />,
-  'Image & Video Generation': <Video className="w-4 h-4 text-[#AAFF00]" />,
+  'Image & Video Generation': <Video className="w-4 h-4 text-[#FF0054]" />,
   'Audio & Soundscapes': <Music className="w-4 h-4 text-[#638AFF]" />,
   'Post-Production & Polish': <Scissors className="w-4 h-4 text-[#FFA670]" />,
 };
@@ -30,7 +30,7 @@ export const TechStackSection: React.FC = () => {
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-3 sm:mb-4 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>STUDIO PIPELINE // MY CREATIVE TOOLKIT</span>
@@ -73,7 +73,7 @@ export const TechStackSection: React.FC = () => {
                       isLight ? 'bg-[#F7F6F2] border-[#E2DDD5]' : 'bg-[#181818] border-white/15'
                     }`}
                   >
-                    {categoryIcons[category.title] || <Sparkles className="w-4 h-4 text-[#AAFF00]" />}
+                    {categoryIcons[category.title] || <Sparkles className="w-4 h-4 text-[#FF0054]" />}
                   </div>
                   <h3 className="font-heading font-extrabold text-sm uppercase tracking-wider">
                     {category.title}

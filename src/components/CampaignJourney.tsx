@@ -28,18 +28,14 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
           <div>
             <div
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold mb-4 border ${
-                isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>CAMPAIGN ARCHITECTURE</span>
             </div>
             <h2 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] uppercase">
               FROM PRODUCT IDEA<br />
-              <span
-                className={`font-editorial-serif italic font-normal lowercase ${
-                  isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-                }`}
-              >
+              <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
                 to market-ready campaign.
               </span>
             </h2>
@@ -67,7 +63,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                   isCurrent
                     ? isLight
                       ? 'bg-white text-[#171717] border-[#390099] shadow-md ring-1 ring-[#390099]'
-                      : 'bg-[#181818] text-white border-[#AAFF00] shadow-[0_0_20px_rgba(170,255,0,0.15)]'
+                      : 'bg-[#181818] text-white border-[#FF0054] shadow-[0_0_20px_rgba(255,0,84,0.2)]'
                     : isLight
                     ? 'bg-[#F0EDE7] text-[#6E6860] border-[#E5E0D8] hover:border-[#390099]/40 hover:text-[#171717]'
                     : 'bg-[#121212] text-neutral-400 border-white/10 hover:border-white/20 hover:text-white'
@@ -79,7 +75,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                       isCurrent
                         ? isLight
                           ? 'text-[#390099]'
-                          : 'text-[#AAFF00]'
+                          : 'text-[#FF0054]'
                         : isLight
                         ? 'text-[#6E6860]'
                         : 'text-neutral-500'
@@ -92,7 +88,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                       isCurrent
                         ? isLight
                           ? 'bg-[#390099]/10 text-[#390099]'
-                          : 'bg-[#AAFF00]/15 text-[#AAFF00]'
+                          : 'bg-[#FF0054]/15 text-[#FF0054]'
                         : isLight
                         ? 'bg-white/60 text-[#6E6860]'
                         : 'bg-white/5 text-neutral-500'
@@ -122,7 +118,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                   isCurrent
                     ? isLight
                       ? 'bg-[#390099] text-white border-[#390099] font-bold shadow-sm'
-                      : 'bg-[#AAFF00] text-[#080808] border-[#AAFF00] font-bold'
+                      : 'bg-[#FF0054] text-white border-[#FF0054] font-bold'
                     : isLight
                     ? 'bg-white text-[#6E6860] border-[#E5E0D8]'
                     : 'bg-[#141414] text-neutral-400 border-white/10'
@@ -149,7 +145,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                   className={`font-mono text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full border ${
                     isLight
                       ? 'bg-[#390099]/10 border-[#390099]/30 text-[#390099]'
-                      : 'bg-[#AAFF00]/10 border-[#AAFF00]/30 text-[#AAFF00]'
+                      : 'bg-[#FF0054]/10 border-[#FF0054]/30 text-[#FF0054]'
                   }`}
                 >
                   STAGE {activeStep.step} OF 06
@@ -159,7 +155,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                     isLight ? 'text-[#6E6860]' : 'text-neutral-400'
                   }`}
                 >
-                  <Clock className={`w-3.5 h-3.5 ${isLight ? 'text-[#390099]' : 'text-[#AAFF00]'}`} />
+                  <Clock className={`w-3.5 h-3.5 ${isLight ? 'text-[#390099]' : 'text-[#FF0054]'}`} />
                   <span>Timeline: {activeStep.duration}</span>
                 </span>
               </div>
@@ -197,7 +193,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                     >
                       <CheckCircle2
                         className={`w-4 h-4 flex-shrink-0 ${
-                          isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
+                          isLight ? 'text-[#FF0054]' : 'text-[#FF0054]'
                         }`}
                       />
                       <span>{output}</span>
@@ -218,7 +214,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                   className={`w-10 h-10 rounded-full border flex items-center justify-center ${
                     isLight
                       ? 'bg-white border-[#390099]/30 text-[#390099]'
-                      : 'bg-[#AAFF00]/10 border-[#AAFF00]/30 text-[#AAFF00]'
+                      : 'bg-[#FF0054]/10 border-[#FF0054]/30 text-[#FF0054]'
                   }`}
                 >
                   <Target className="w-5 h-5" />
@@ -248,7 +244,7 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
                   type="button"
                   onClick={() => setActiveStepIndex((prev) => (prev < CAMPAIGN_STEPS.length - 1 ? prev + 1 : 0))}
                   className={`py-1 px-2 text-xs font-mono font-bold uppercase flex items-center gap-1 cursor-pointer ${
-                    isLight ? 'text-[#390099] hover:text-[#FF0054]' : 'text-[#AAFF00] hover:text-white'
+                    isLight ? 'text-[#390099] hover:text-[#FF0054]' : 'text-[#FF0054] hover:text-white'
                   }`}
                 >
                   <span>Next Step</span>
@@ -267,8 +263,8 @@ export const CampaignJourney: React.FC<CampaignJourneyProps> = ({ onPlanCampaign
             onClick={onPlanCampaign}
             className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-heading font-bold uppercase tracking-wider cursor-pointer shadow-lg ${
               isLight
-                ? 'bg-[#390099] text-white hover:bg-[#2E007A] shadow-glow-purple'
-                : 'btn-teevra-lime shadow-glow-lime'
+                ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-md'
+                : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
             }`}
           >
             <span>Let's Plan Your Campaign</span>

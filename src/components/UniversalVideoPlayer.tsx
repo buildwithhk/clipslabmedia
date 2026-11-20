@@ -83,7 +83,7 @@ export const UniversalVideoPlayer: React.FC<UniversalVideoPlayerProps> = ({
               setCurrentUrl('/assets/sample-reel.mp4');
               setHasError(false);
             }}
-            className="px-4 py-2 rounded-full bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F] text-xs font-heading font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors"
+            className="px-4 py-2 rounded-full bg-[#FF0054] text-white hover:bg-[#e0004a] text-xs font-heading font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors shadow-md shadow-[#FF0054]/30"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Load Default Studio Reel</span>

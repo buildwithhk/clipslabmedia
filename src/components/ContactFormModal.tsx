@@ -99,7 +99,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
         <div className="p-6 sm:p-8 overflow-y-auto max-h-[80vh]">
           {isSubmitted ? (
             <div className="py-10 text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-[#AAFF00] text-[#080808] flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-lg shadow-[#FF0054]/30">
                 <CheckCircle2 className="w-8 h-8 stroke-[2.5]" />
               </div>
               <h3 className="font-heading font-extrabold text-2xl uppercase tracking-tight">
@@ -110,7 +110,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
               </p>
               <button
                 onClick={onClose}
-                className="mt-4 px-6 py-2.5 rounded-full text-xs font-mono uppercase bg-[#121212] text-white dark:bg-[#AAFF00] dark:text-black cursor-pointer font-bold"
+                className="mt-4 px-6 py-2.5 rounded-full text-xs font-mono uppercase bg-[#121212] text-white dark:bg-[#FF0054] dark:text-white cursor-pointer font-bold"
               >
                 Close Window
               </button>
@@ -147,7 +147,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Alex Morgan"
                       className={`w-full px-3.5 py-2.5 text-xs sm:text-sm font-sans rounded-xl border outline-none ${
-                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                       }`}
                     />
                   </div>
@@ -161,7 +161,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="alex@brand.com"
                       className={`w-full px-3.5 py-2.5 text-xs sm:text-sm font-sans rounded-xl border outline-none ${
-                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                       }`}
                     />
                   </div>
@@ -178,7 +178,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="e.g. Lumina Fragrances"
                       className={`w-full px-3.5 py-2.5 text-xs sm:text-sm font-sans rounded-xl border outline-none ${
-                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                       }`}
                     />
                   </div>
@@ -189,7 +189,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                       value={projectType}
                       onChange={(e) => setProjectType(e.target.value)}
                       className={`w-full px-3.5 py-2.5 text-xs sm:text-sm font-sans rounded-xl border outline-none ${
-                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                        isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                       }`}
                     >
                       {PROJECT_TYPES.map((type) => (
@@ -212,7 +212,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                     onChange={(e) => setBrief(e.target.value)}
                     placeholder="Describe your product, desired visual tone, reference films, and timeline expectations..."
                     className={`w-full px-3.5 py-2.5 text-xs sm:text-sm font-sans rounded-xl border outline-none ${
-                      isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                      isLight ? 'bg-white border-[#E2DDD5] focus:border-[#121212]' : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                     }`}
                   />
                 </div>
@@ -234,7 +234,7 @@ export const ContactFormModal: React.FC<ContactFormModalProps> = ({
                   className={`w-full py-3.5 px-6 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
                     isLight
                       ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-md'
-                      : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F] shadow-glow-lime'
+                      : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                   }`}
                 >
                   {isSubmitting ? (

@@ -63,7 +63,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-2.5 sm:mb-3 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>PORTFOLIO ARCHIVE // AI COMMERCIALS & BRAND FILMS</span>
@@ -82,9 +82,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
             onClick={() => setSelectedFormat('9:16')}
             className={`relative px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase font-bold cursor-pointer flex items-center gap-2 z-10 transition-colors ${
               selectedFormat === '9:16'
-                ? isLight
-                  ? 'text-white'
-                  : 'text-[#080808]'
+                ? 'text-white'
                 : isLight
                 ? 'text-[#5E5A53] hover:text-[#121212]'
                 : 'text-neutral-400 hover:text-white'
@@ -94,7 +92,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
               <motion.div
                 layoutId="featuredWorkTabActive"
                 className={`absolute inset-0 rounded-xl -z-10 ${
-                  isLight ? 'bg-[#121212] shadow-md' : 'bg-[#AAFF00] shadow-glow-lime'
+                  isLight ? 'bg-[#121212] shadow-md' : 'bg-[#FF0054] shadow-glow-pink'
                 }`}
                 transition={{ type: 'spring', stiffness: 450, damping: 35 }}
               />
@@ -104,9 +102,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                 selectedFormat === '9:16'
-                  ? isLight
-                    ? 'bg-white/20 text-white'
-                    : 'bg-black/20 text-black'
+                  ? 'bg-white/20 text-white'
                   : 'bg-black/10 dark:bg-white/10'
               }`}
             >
@@ -119,9 +115,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
             onClick={() => setSelectedFormat('16:9')}
             className={`relative px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase font-bold cursor-pointer flex items-center gap-2 z-10 transition-colors ${
               selectedFormat === '16:9'
-                ? isLight
-                  ? 'text-white'
-                  : 'text-[#080808]'
+                ? 'text-white'
                 : isLight
                 ? 'text-[#5E5A53] hover:text-[#121212]'
                 : 'text-neutral-400 hover:text-white'
@@ -131,7 +125,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
               <motion.div
                 layoutId="featuredWorkTabActive"
                 className={`absolute inset-0 rounded-xl -z-10 ${
-                  isLight ? 'bg-[#121212] shadow-md' : 'bg-[#AAFF00] shadow-glow-lime'
+                  isLight ? 'bg-[#121212] shadow-md' : 'bg-[#FF0054] shadow-glow-pink'
                 }`}
                 transition={{ type: 'spring', stiffness: 450, damping: 35 }}
               />
@@ -141,9 +135,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
             <span
               className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                 selectedFormat === '16:9'
-                  ? isLight
-                    ? 'bg-white/20 text-white'
-                    : 'bg-black/20 text-black'
+                  ? 'bg-white/20 text-white'
                   : 'bg-black/10 dark:bg-white/10'
               }`}
             >
@@ -191,7 +183,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({
             <div className="flex items-center justify-center gap-3">
               <button
                 onClick={() => setSelectedFormat('all')}
-                className="px-4 py-2 rounded-full text-xs font-mono uppercase bg-[#121212] text-white dark:bg-[#AAFF00] dark:text-black cursor-pointer font-bold"
+                className="px-4 py-2 rounded-full text-xs font-mono uppercase bg-[#121212] text-white dark:bg-[#FF0054] dark:text-white cursor-pointer font-bold"
               >
                 Show All Projects
               </button>

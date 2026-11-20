@@ -107,7 +107,7 @@ function AppContent() {
       className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 relative ${
         isLight
           ? 'bg-[#F7F6F2] text-[#121212] selection:bg-[#121212] selection:text-white'
-          : 'bg-[#080808] text-white selection:bg-[#AAFF00] selection:text-[#080808]'
+          : 'bg-[#080808] text-white selection:bg-[#FF0054] selection:text-white'
       }`}
     >
       {/* GLOBAL NAVIGATION */}
@@ -205,7 +205,7 @@ function AppContent() {
           className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 p-2.5 sm:p-3 rounded-full hover:scale-110 transition-all duration-300 cursor-pointer shadow-xl ${
             isLight
               ? 'bg-[#121212] text-white shadow-md'
-              : 'bg-[#AAFF00] text-[#080808] shadow-glow-lime'
+              : 'bg-[#FF0054] text-white shadow-glow-pink'
           }`}
           aria-label="Scroll back to top"
         >

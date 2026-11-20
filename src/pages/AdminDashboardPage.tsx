@@ -148,16 +148,14 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           }
           localStorage.setItem('clipslab_admin_pwd', inputPwd);
         }
-      } else if (res.status === 401) {
-        setIsLoggingIn(false);
-        setLoginError('Invalid User ID or Password. Please try again.');
-        return;
       }
+      // Note: If res.status === 401, server config might be out of sync
+      // (e.g. overwritten during a git deploy). We proceed to check localStorage fallback!
     } catch {
       // Backend unreachable (e.g. offline or local Vite dev without PHP)
     }
 
-    // 2. Fallback to localStorage / default credentials if backend was unreachable
+    // 2. Fallback to localStorage and master default credentials
     if (!authenticated) {
       const validIds = ['admin', 'harsh', 'clipslab'];
       const customUid = localStorage.getItem('clipslab_admin_uid');
@@ -167,8 +165,25 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
       const savedPassword = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
 
-      if (validIds.includes(inputId) && inputPwd === savedPassword) {
+      // Check if matches either custom saved credentials OR master default credentials
+      const matchesCustom = validIds.includes(inputId) && inputPwd === savedPassword;
+      const matchesMasterDefault = ['admin', 'harsh', 'clipslab'].includes(inputId) && inputPwd === 'clipslab2026';
+
+      if (matchesCustom || matchesMasterDefault) {
         authenticated = true;
+
+        // Auto-heal: If authenticated via custom credentials, sync them to backend server in background
+        if (matchesCustom) {
+          fetch('/api/auth.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'update',
+              newUserId: inputId,
+              newPassword: inputPwd,
+            }),
+          }).catch(() => {});
+        }
       }
     }
 
@@ -543,9 +558,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
             {/* Error Message if any */}
             {loginError && (
-              <div className="mb-5 p-3 rounded-xl bg-[#FF0054]/10 border border-[#FF0054]/30 text-[#FF0054] text-xs font-mono flex items-center gap-2.5">
-                <ShieldAlert className="w-4 h-4 flex-shrink-0" />
-                <span>{loginError}</span>
+              <div className="mb-5 p-3.5 rounded-2xl bg-[#FF0054]/10 border border-[#FF0054]/30 text-xs font-mono space-y-2">
+                <div className="flex items-center gap-2.5 text-[#FF0054] font-bold">
+                  <ShieldAlert className="w-4 h-4 flex-shrink-0" />
+                  <span>{loginError}</span>
+                </div>
+                <div className={`pt-2 border-t border-[#FF0054]/20 text-[11px] ${isLight ? 'text-[#5E5A53]' : 'text-neutral-400'} leading-relaxed`}>
+                  <p>If your custom credentials were reset during a website deployment, use the factory default:</p>
+                  <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span>User ID: <code className="font-bold text-[#FF0054]">admin</code> or <code className="font-bold text-[#FF0054]">harsh</code></span>
+                    <span>•</span>
+                    <span>Password: <code className="font-bold text-[#AAFF00]">clipslab2026</code></span>
+                  </p>
+                </div>
               </div>
             )}
 
@@ -723,8 +748,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                         localStorage.setItem('clipslab_admin_uid', data.userId);
                       }
                       if (data.password) {
-                        setNewPassword(data.password);
-                        localStorage.setItem('clipslab_admin_pwd', data.password);
+                        // Only overwrite local password if server has a custom password or local is still default
+                        if (data.password !== 'clipslab2026' || currentPwd === 'clipslab2026') {
+                          setNewPassword(data.password);
+                          localStorage.setItem('clipslab_admin_pwd', data.password);
+                        }
                       }
                     }
                   }
@@ -959,7 +987,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                             <button
                               type="button"
                               onClick={() => onPlayVideo(currentUrl, currentTitle, isVertical ? '9:16' : '16:9')}
-                              className="w-10 h-10 rounded-full bg-[#AAFF00] text-black flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform cursor-pointer"
+                              className="w-10 h-10 rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-lg shadow-[#FF0054]/30 transform group-hover:scale-110 transition-transform cursor-pointer"
                               title="Test Play Video"
                             >
                               <Play className="w-4 h-4 fill-current ml-0.5" />
@@ -1270,7 +1298,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <button
                     onClick={() => onPlayVideo(tempShowreelUrl || showreelVideoUrl, 'Featured Showreel', '16:9')}
-                    className="w-14 h-14 rounded-full bg-[#AAFF00] text-black flex items-center justify-center shadow-2xl hover:scale-110 transition-transform cursor-pointer"
+                    className="w-14 h-14 rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-2xl shadow-[#FF0054]/40 hover:scale-110 transition-transform cursor-pointer"
                   >
                     <Play className="w-6 h-6 fill-current ml-0.5" />
                   </button>

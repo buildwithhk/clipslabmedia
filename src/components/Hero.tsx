@@ -46,16 +46,16 @@ export const Hero: React.FC<HeroProps> = ({
         {/* Main Hero Header */}
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           
-          {/* Small Studio Tag */}
+          {/* Small Studio Tag (20% bigger, pink text & pulse dot) */}
           <motion.div
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border shadow-xs transition-colors max-w-full bg-white dark:bg-[#141414] border-[#E2DDD5] dark:border-white/10 mx-auto"
+            className="inline-flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border shadow-xs transition-colors max-w-full bg-white dark:bg-[#141414] border-[#FF0054]/25 dark:border-[#FF0054]/35 mx-auto"
           >
-            <span className="w-2 h-2 rounded-full bg-[#FF0054] animate-pulse flex-shrink-0" />
-            <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.2em] uppercase font-bold text-[#121212] dark:text-neutral-200">
-              AI FILMMAKING & CREATIVE PRODUCTION STUDIO | INDIA
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF0054] animate-pulse flex-shrink-0" />
+            <span className="text-[12px] sm:text-[13px] md:text-sm font-mono tracking-[0.2em] uppercase font-bold text-[#FF0054]">
+              AI AD CREATIVES & FILMMAKING STUDIO
             </span>
           </motion.div>
 
@@ -120,32 +120,30 @@ export const Hero: React.FC<HeroProps> = ({
             transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2"
           >
-            <motion.button
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={onExploreWork}
-              className={`w-full sm:w-auto px-8 py-4 rounded-full text-xs sm:text-sm font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer transition-shadow duration-300 shadow-md ${
-                isLight
-                  ? 'bg-[#121212] text-white hover:bg-[#262626]'
-                  : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F] shadow-glow-lime'
-              }`}
-            >
-              <span>EXPLORE OUR BEST AI ADS</span>
-              <ArrowDown className="w-4 h-4 stroke-[2.5]" />
-            </motion.button>
-
+            {/* 1. Primary CTA: Contact for ADs (First) */}
             <motion.button
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={onStartProject}
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-xs sm:text-sm font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer transition-all duration-300 bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30"
+            >
+              <span>CONTACT FOR ADS</span>
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            </motion.button>
+
+            {/* 2. Secondary CTA: Explore our ADs (Second) */}
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onExploreWork}
               className={`w-full sm:w-auto px-8 py-4 rounded-full text-xs sm:text-sm font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer transition-shadow duration-300 border ${
                 isLight
                   ? 'bg-white text-[#121212] border-[#E2DDD5] hover:border-[#121212] hover:bg-[#F7F6F2] shadow-xs'
                   : 'bg-[#141414] text-white border-white/20 hover:border-white hover:bg-white/5'
               }`}
             >
-              <span>LET'S COLLABORATE</span>
-              <span className="w-2 h-2 rounded-full bg-[#FF0054] animate-pulse" />
+              <span>EXPLORE OUR ADS</span>
+              <ArrowDown className="w-4 h-4 stroke-[2.5]" />
             </motion.button>
           </motion.div>
 

@@ -8,12 +8,12 @@ interface ServicesPageProps {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  Sparkles: <Sparkles className="w-5 h-5 text-[#AAFF00]" />,
+  Sparkles: <Sparkles className="w-5 h-5 text-[#FF0054]" />,
   Box: <Box className="w-5 h-5 text-[#FFA670]" />,
   Compass: <Compass className="w-5 h-5 text-[#FF0054]" />,
   Film: <Film className="w-5 h-5 text-[#638AFF]" />,
   Eye: <Eye className="w-5 h-5 text-[#EEF23A]" />,
-  Smartphone: <Smartphone className="w-5 h-5 text-[#AAFF00]" />,
+  Smartphone: <Smartphone className="w-5 h-5 text-[#FF0054]" />,
 };
 
 export const ServicesPage: React.FC<ServicesPageProps> = ({ onStartProject }) => {
@@ -34,7 +34,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onStartProject }) =>
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold mb-4 border ${
               isLight
                 ? 'bg-white border-[#E2DDD5] text-[#121212]'
-                : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                : 'bg-[#161616] border-white/10 text-[#FF0054]'
             }`}
           >
             <span>STUDIO CAPABILITIES // WHAT WE DO</span>
@@ -108,7 +108,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onStartProject }) =>
                     <ul className="space-y-2.5">
                       {service.keyDeliverables.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm">
-                          <Check className="w-4 h-4 text-[#AAFF00] flex-shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-[#FF0054] flex-shrink-0 mt-0.5" />
                           <span className={isLight ? 'text-[#4A453E]' : 'text-neutral-300'}>
                             {item}
                           </span>
@@ -132,7 +132,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onStartProject }) =>
                       className={`px-5 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all ${
                         isLight
                           ? 'bg-[#121212] text-white hover:bg-[#262626]'
-                          : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
+                          : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                       }`}
                     >
                       <span>Inquire About This Service</span>

@@ -83,7 +83,7 @@ export const Showreel: React.FC<ShowreelProps> = ({ onOpenFullScreen }) => {
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-3 sm:mb-4 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>FEATURED SHOWREEL // 2026</span>

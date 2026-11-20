@@ -61,7 +61,7 @@ export const ContactSection: React.FC = () => {
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-3 sm:mb-4 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>INITIATE COLLABORATION</span>
@@ -99,7 +99,7 @@ export const ContactSection: React.FC = () => {
             >
               {isSubmitted ? (
                 <div className="py-12 text-center space-y-4 my-auto">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-[#AAFF00] text-[#080808] flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-lg shadow-[#FF0054]/30">
                     <CheckCircle2 className="w-8 h-8 stroke-[2.5]" />
                   </div>
                   <h3 className="font-heading font-extrabold text-2xl uppercase tracking-tight">
@@ -142,7 +142,7 @@ export const ContactSection: React.FC = () => {
                           className={`w-full px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-sans rounded-xl border outline-none transition-colors ${
                             isLight
                               ? 'bg-[#F7F6F2] border-[#E2DDD5] focus:border-[#121212]'
-                              : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                              : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                           }`}
                         />
                       </div>
@@ -160,7 +160,7 @@ export const ContactSection: React.FC = () => {
                           className={`w-full px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-sans rounded-xl border outline-none transition-colors ${
                             isLight
                               ? 'bg-[#F7F6F2] border-[#E2DDD5] focus:border-[#121212]'
-                              : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                              : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                           }`}
                         />
                       </div>
@@ -179,7 +179,7 @@ export const ContactSection: React.FC = () => {
                           className={`w-full px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-sans rounded-xl border outline-none transition-colors ${
                             isLight
                               ? 'bg-[#F7F6F2] border-[#E2DDD5] focus:border-[#121212]'
-                              : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                              : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                           }`}
                         />
                       </div>
@@ -194,7 +194,7 @@ export const ContactSection: React.FC = () => {
                           className={`w-full px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-sans rounded-xl border outline-none transition-colors ${
                             isLight
                               ? 'bg-[#F7F6F2] border-[#E2DDD5] focus:border-[#121212]'
-                              : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                              : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                           }`}
                         >
                           {PROJECT_TYPES.map((type) => (
@@ -219,7 +219,7 @@ export const ContactSection: React.FC = () => {
                         className={`w-full px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-sans rounded-xl border outline-none transition-colors resize-none ${
                           isLight
                             ? 'bg-[#F7F6F2] border-[#E2DDD5] focus:border-[#121212]'
-                            : 'bg-[#181818] border-white/10 text-white focus:border-[#AAFF00]'
+                            : 'bg-[#181818] border-white/10 text-white focus:border-[#FF0054]'
                         }`}
                       />
                     </div>
@@ -242,7 +242,7 @@ export const ContactSection: React.FC = () => {
                     className={`w-full py-3.5 px-6 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all mt-3 disabled:opacity-60 disabled:cursor-not-allowed ${
                       isLight
                         ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-md'
-                        : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F] shadow-glow-lime'
+                        : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                     }`}
                   >
                     {isSubmitting ? (
@@ -289,7 +289,7 @@ export const ContactSection: React.FC = () => {
                   className={`flex-1 py-2.5 px-4 rounded-full text-xs font-mono uppercase font-bold text-center border transition-all cursor-pointer ${
                     isLight
                       ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-xs'
-                      : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
+                      : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                   }`}
                 >
                   Send Direct Email

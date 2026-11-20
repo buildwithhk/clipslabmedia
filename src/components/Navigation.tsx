@@ -141,7 +141,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     isActive
                       ? isLight
                         ? 'text-[#121212] font-bold'
-                        : 'text-[#AAFF00] font-bold'
+                        : 'text-[#FF0054] font-bold'
                       : isLight
                       ? 'text-[#5E5A53] hover:text-[#121212]'
                       : 'text-neutral-400 hover:text-white'
@@ -152,7 +152,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     <motion.span
                       layoutId="navActiveUnderline"
                       className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                        isLight ? 'bg-[#121212]' : 'bg-[#AAFF00]'
+                        isLight ? 'bg-[#121212]' : 'bg-[#FF0054]'
                       }`}
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
@@ -175,7 +175,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               title={isLight ? 'Switch to Dark Cinematic Theme' : 'Switch to Textured Ivory Theme'}
               aria-label="Toggle theme"
             >
-              {isLight ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5 text-[#AAFF00]" />}
+              {isLight ? <Moon className="w-3.5 h-3.5" /> : <Sun className="w-3.5 h-3.5 text-[#FF0054]" />}
             </button>
 
             {/* Prominent CTA */}
@@ -184,7 +184,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               className={`hidden sm:inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs font-heading font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                 isLight
                   ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-sm hover:scale-[1.02]'
-                  : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F] shadow-glow-lime hover:scale-[1.02]'
+                  : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30 hover:scale-[1.02]'
               }`}
             >
               <span>LET'S CREATE SOMETHING</span>
@@ -247,7 +247,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                       currentPage === link.id
                         ? isLight
                           ? 'bg-[#EFECE6] font-bold text-[#121212]'
-                          : 'bg-white/10 font-bold text-[#AAFF00]'
+                          : 'bg-white/10 font-bold text-[#FF0054]'
                         : isLight
                         ? 'text-[#5E5A53] hover:text-[#121212]'
                         : 'text-neutral-400 hover:text-white'
@@ -269,7 +269,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 className={`w-full py-3.5 px-4 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer ${
                   isLight
                     ? 'bg-[#121212] text-white'
-                    : 'bg-[#AAFF00] text-[#080808]'
+                    : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                 }`}
               >
                 <span>LET'S CREATE SOMETHING</span>

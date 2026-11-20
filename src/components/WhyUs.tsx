@@ -8,7 +8,7 @@ export const WhyUs: React.FC = () => {
 
   const pillars = [
     {
-      icon: <Brain className={`w-6 h-6 ${isLight ? 'text-[#390099]' : 'text-[#AAFF00]'}`} />,
+      icon: <Brain className={`w-6 h-6 ${isLight ? 'text-[#390099]' : 'text-[#FF0054]'}`} />,
       title: 'Creative-First Thinking',
       description: 'We start with brand psychology, audience tension, and commercial objectives. Technology is our brush, not our brain.'
     },
@@ -28,7 +28,7 @@ export const WhyUs: React.FC = () => {
       description: 'Not a fragmented asset dump. A comprehensive suite of hero ads, cutdowns, vertical stories, and static editorial stills.'
     },
     {
-      icon: <Sliders className={`w-6 h-6 ${isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}`} />,
+      icon: <Sliders className={`w-6 h-6 ${isLight ? 'text-[#FF0054]' : 'text-[#FF0054]'}`} />,
       title: 'Flexible Creative Production',
       description: 'Rapid digital iteration that allows adjustments to lighting, environments, and hooks without expensive set rebuilds.'
     },
@@ -51,18 +51,14 @@ export const WhyUs: React.FC = () => {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <div
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold mb-4 border ${
-              isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+              isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#FF0054]'
             }`}
           >
             <span>THE CLIPSLAB ADVANTAGE</span>
           </div>
           <h2 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] uppercase mb-4 sm:mb-6">
             MORE THAN GENERATION.<br />
-            <span
-              className={`font-editorial-serif italic font-normal lowercase ${
-                isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-              }`}
-            >
+            <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
               it's creative direction.
             </span>
           </h2>
@@ -109,21 +105,21 @@ export const WhyUs: React.FC = () => {
             className={`p-5 sm:p-8 rounded-2xl border relative ${
               isLight
                 ? 'bg-white border-[#390099] shadow-md ring-1 ring-[#390099]'
-                : 'bg-[#141414] border-[#AAFF00]/50 shadow-[0_0_30px_rgba(170,255,0,0.1)]'
+                : 'bg-[#141414] border-[#FF0054]/50 shadow-[0_0_30px_rgba(255,0,84,0.15)]'
             }`}
           >
             <div
               className={`sm:absolute sm:top-4 sm:right-4 inline-block mb-3 sm:mb-0 px-3 py-0.5 rounded-full text-[10px] font-mono uppercase font-extrabold tracking-wider ${
-                isLight ? 'bg-[#390099] text-white' : 'bg-[#AAFF00] text-[#080808]'
+                isLight ? 'bg-[#390099] text-white' : 'bg-[#FF0054] text-white'
               }`}
             >
               Studio Standard
             </div>
             <div className="flex items-center gap-2 mb-4">
-              <span className={`w-2.5 h-2.5 rounded-full ${isLight ? 'bg-[#390099]' : 'bg-[#AAFF00]'}`} />
+              <span className={`w-2.5 h-2.5 rounded-full ${isLight ? 'bg-[#390099]' : 'bg-[#FF0054]'}`} />
               <p
                 className={`font-mono text-xs uppercase tracking-wider font-bold ${
-                  isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                  isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                 }`}
               >
                 ClipsLab Creative Direction & Production
@@ -134,15 +130,15 @@ export const WhyUs: React.FC = () => {
             </h3>
             <ul className={`space-y-3 text-xs sm:text-sm font-medium ${isLight ? 'text-[#332F2A]' : 'text-neutral-200'}`}>
               <li className="flex items-start gap-2.5">
-                <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}`} />
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#FF0054]" />
                 <span>Absolute visual fidelity, coherent lighting, and exact brand geometry preservation.</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}`} />
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#FF0054]" />
                 <span>Custom narrative treatments, psychological hooks, and rhythm-synced sound scores.</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}`} />
+                <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#FF0054]" />
                 <span>Master vault delivery with multi-ratio paid ads cutdowns and high-res editorial stills.</span>
               </li>
             </ul>
@@ -157,7 +153,7 @@ export const WhyUs: React.FC = () => {
               className={`p-5 sm:p-8 rounded-2xl border transition-all ${
                 isLight
                   ? 'bg-white border-[#E5E0D8] hover:border-[#390099] shadow-subtle'
-                  : 'bg-[#121212] border-white/10 hover:border-[#AAFF00]/40'
+                  : 'bg-[#121212] border-white/10 hover:border-[#FF0054]/40'
               }`}
             >
               <div

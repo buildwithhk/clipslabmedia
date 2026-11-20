@@ -6,7 +6,7 @@ export function triggerSuccessConfetti(originY = 0.65): void {
       particleCount: 70,
       spread: 60,
       origin: { y: originY },
-      colors: ['#AAFF00', '#FF0054', '#121212'],
+      colors: ['#FF0054', '#FF3366', '#FFA670', '#121212'],
     });
   } catch {
     // Safe no-op if canvas/animation is unavailable

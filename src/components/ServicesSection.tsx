@@ -8,12 +8,12 @@ interface ServicesSectionProps {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  Sparkles: <Sparkles className="w-5 h-5 text-[#AAFF00]" />,
+  Sparkles: <Sparkles className="w-5 h-5 text-[#FF0054]" />,
   Box: <Box className="w-5 h-5 text-[#FFA670]" />,
   Compass: <Compass className="w-5 h-5 text-[#FF0054]" />,
   Film: <Film className="w-5 h-5 text-[#638AFF]" />,
   Eye: <Eye className="w-5 h-5 text-[#EEF23A]" />,
-  Smartphone: <Smartphone className="w-5 h-5 text-[#AAFF00]" />,
+  Smartphone: <Smartphone className="w-5 h-5 text-[#FF0054]" />,
 };
 
 export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectService }) => {
@@ -36,7 +36,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-3 sm:mb-4 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>STUDIO CAPABILITIES // SERVICES</span>
@@ -84,7 +84,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                       isLight ? 'bg-[#F7F6F2] border-[#E2DDD5]' : 'bg-[#1A1A1A] border-white/15'
                     }`}
                   >
-                    {iconMap[service.iconName] || <Sparkles className="w-5 h-5 text-[#AAFF00]" />}
+                    {iconMap[service.iconName] || <Sparkles className="w-5 h-5 text-[#FF0054]" />}
                   </div>
                 </div>
 
@@ -109,7 +109,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   {service.turnaroundTime}
                 </span>
 
-                <span className="flex items-center gap-1 font-bold uppercase tracking-wider text-[#121212] dark:text-[#AAFF00] group-hover:translate-x-1 transition-transform">
+                <span className="flex items-center gap-1 font-bold uppercase tracking-wider text-[#121212] dark:text-[#FF0054] group-hover:translate-x-1 transition-transform">
                   <span>DISCUSS BRIEF</span>
                   <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </span>

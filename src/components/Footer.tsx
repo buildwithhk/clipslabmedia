@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenProjectModal }
                 className={`px-5 py-2.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center gap-2 cursor-pointer transition-all ${
                   isLight
                     ? 'bg-[#121212] text-white hover:bg-[#262626]'
-                    : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
+                    : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                 }`}
               >
                 <span>LET'S CREATE SOMETHING</span>

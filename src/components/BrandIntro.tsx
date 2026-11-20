@@ -25,7 +25,7 @@ export const BrandIntro: React.FC = () => {
           }`}
         >
           <span className="flex items-center gap-2 sm:gap-3">
-            <span className={isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}>●</span> AI ADVERTISING
+            <span className="text-[#FF0054]">●</span> AI ADVERTISING
           </span>
           <span className="flex items-center gap-2 sm:gap-3">
             <span className={isLight ? 'text-[#390099]' : 'text-[#EEF23A]'}>●</span> AI FILMMAKING
@@ -37,7 +37,7 @@ export const BrandIntro: React.FC = () => {
             <span className={isLight ? 'text-[#9E0059]' : 'text-[#638AFF]'}>●</span> GEN FX & NEURAL LIGHTING
           </span>
           <span className="flex items-center gap-2 sm:gap-3">
-            <span className={isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}>●</span> CINEMA-GRADE FINISHING
+            <span className="text-[#FF0054]">●</span> CINEMA-GRADE FINISHING
           </span>
           <span className="flex items-center gap-2 sm:gap-3">
             <span className={isLight ? 'text-[#FFBD00]' : 'text-[#EEF23A]'}>●</span> CREATIVE DIRECTION
@@ -46,7 +46,7 @@ export const BrandIntro: React.FC = () => {
             <span className={isLight ? 'text-[#FF5400]' : 'text-[#FFA670]'}>●</span> PRODUCT LAUNCH CAMPAIGNS
           </span>
           <span className="flex items-center gap-2 sm:gap-3">
-            <span className={isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'}>●</span> AI ADVERTISING
+            <span className="text-[#FF0054]">●</span> AI ADVERTISING
           </span>
         </div>
       </div>
@@ -60,7 +60,7 @@ export const BrandIntro: React.FC = () => {
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest border ${
                 isLight
                   ? 'bg-white border-[#E5E0D8] text-[#390099] font-bold'
-                  : 'bg-[#181818] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#181818] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>WHAT WE DO</span>
@@ -69,11 +69,7 @@ export const BrandIntro: React.FC = () => {
             <h2 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] uppercase">
               THE NEW LANGUAGE<br />
               OF BRAND<br />
-              <span
-                className={`font-editorial-serif italic font-normal lowercase ${
-                  isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-                }`}
-              >
+              <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
                 advertising.
               </span>
             </h2>
@@ -84,7 +80,7 @@ export const BrandIntro: React.FC = () => {
               }`}
             >
               One integrated pipeline from initial brief to cinema-grade finish.{' '}
-              <span className={isLight ? 'text-[#390099] font-bold' : 'text-[#AAFF00]'}>
+              <span className={isLight ? 'text-[#390099] font-bold' : 'text-[#FF0054]'}>
                 Unlocking creative scale
               </span>{' '}
               without losing human art direction.
@@ -119,12 +115,12 @@ export const BrandIntro: React.FC = () => {
                 className={`p-4 sm:p-5 rounded-xl border transition-colors ${
                   isLight
                     ? 'bg-white border-[#E5E0D8] hover:border-[#390099]'
-                    : 'bg-[#141414] border-white/10 hover:border-[#AAFF00]/40'
+                    : 'bg-[#141414] border-white/10 hover:border-[#FF0054]/40'
                 }`}
               >
                 <span
                   className={`text-[10px] font-mono uppercase font-bold tracking-wider block mb-1 ${
-                    isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                    isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                   }`}
                 >
                   01 // AGILE WORKFLOWS

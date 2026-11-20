@@ -28,7 +28,7 @@ export const AboutFounder: React.FC<AboutFounderProps> = ({
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold border ${
               isLight
                 ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                : 'bg-[#161616] border-white/10 text-[#FF0054]'
             }`}
           >
             <span>ABOUT THE FOUNDER // HARSH KUMAR</span>
@@ -95,7 +95,7 @@ export const AboutFounder: React.FC<AboutFounderProps> = ({
                   className={`px-6 py-3 rounded-full text-xs font-heading font-bold uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer transition-all shadow-sm hover:scale-[1.02] ${
                     isLight
                       ? 'bg-[#121212] text-white hover:bg-[#262626]'
-                      : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
+                      : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                   }`}
                 >
                   <span>Work With Me</span>

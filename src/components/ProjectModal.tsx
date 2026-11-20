@@ -81,7 +81,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider font-bold transition-all cursor-pointer ${
               isLight
                 ? 'bg-white border-[#E2DDD5] text-[#121212] hover:bg-[#121212] hover:text-white'
-                : 'bg-white/10 border-white/15 text-white hover:bg-[#AAFF00] hover:text-black'
+                : 'bg-white/10 border-white/15 text-white hover:bg-[#FF0054] hover:text-white'
             }`}
           >
             <ArrowLeft className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -128,7 +128,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   <Smartphone className="w-2.5 h-2.5 text-[#FF0054]" />
                   <span>9:16 MOBILE FORMAT</span>
                 </span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#AAFF00] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF0054] animate-pulse" />
               </div>
 
               <UniversalVideoPlayer
@@ -209,7 +209,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 isLight ? 'bg-white border-[#E2DDD5]' : 'bg-[#181818] border-white/10'
               }`}
             >
-              <p className="text-xs font-mono uppercase font-bold tracking-wider mb-2 text-[#AAFF00] dark:text-[#AAFF00]">
+              <p className="text-xs font-mono uppercase font-bold tracking-wider mb-2 text-[#FF0054]">
                 02 // Production Approach
               </p>
               <p className={`text-xs sm:text-sm leading-relaxed ${isLight ? 'text-[#5E5A53]' : 'text-neutral-300'}`}>
@@ -263,10 +263,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               className={`w-full sm:w-auto px-6 py-3 rounded-full text-xs font-heading font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all ${
                 isLight
                   ? 'bg-[#121212] text-white hover:bg-[#262626]'
-                  : 'bg-[#AAFF00] text-[#080808] hover:bg-[#B8FF1F]'
+                  : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
               }`}
             >
-              <span>Collaborate With Harsh</span>
+              <span>Contact for ADs</span>
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
           </div>

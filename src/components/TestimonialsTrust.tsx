@@ -174,11 +174,11 @@ export const TestimonialsTrust: React.FC<TestimonialsTrustProps> = ({ onStartPro
             onClick={onStartProject}
             className={`w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs font-heading font-bold uppercase tracking-wider cursor-pointer shadow-md ${
               isLight
-                ? 'bg-[#390099] text-white hover:bg-[#2E007A] shadow-glow-purple'
-                : 'btn-teevra-lime shadow-glow-lime-sm'
+                ? 'bg-[#121212] text-white hover:bg-[#262626]'
+                : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
             }`}
           >
-            <span>Collaborate With Our Studio</span>
+            <span>Contact for ADs</span>
             <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
           </button>
         </div>

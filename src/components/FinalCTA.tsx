@@ -22,7 +22,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
       {/* Ambient Radial Lighting */}
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[250px] sm:h-[350px] blur-[130px] rounded-full pointer-events-none ${
-          isLight ? 'bg-[#390099]/5' : 'bg-[#AAFF00]/10'
+          isLight ? 'bg-[#390099]/5' : 'bg-[#FF0054]/10'
         }`}
       />
       <div
@@ -43,9 +43,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
           }`}
         >
           <span
-            className={`w-2 h-2 rounded-full animate-pulse flex-shrink-0 ${
-              isLight ? 'bg-[#FF0054]' : 'bg-[#AAFF00]'
-            }`}
+            className="w-2 h-2 rounded-full animate-pulse flex-shrink-0 bg-[#FF0054]"
           />
           <span className="text-[10px] sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase font-bold truncate">
             Available For Select Brand Campaigns
@@ -55,11 +53,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
         {/* Massive Headline with Instrument Serif Contrast */}
         <h2 className="font-heading font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.0] uppercase mb-6 sm:mb-8">
           YOUR NEXT BIG IDEA<br />
-          <span
-            className={`font-editorial-serif italic font-normal lowercase ${
-              isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-            }`}
-          >
+          <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
             deserves a bigger execution.
           </span>
         </h2>
@@ -80,8 +74,8 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
             onClick={onStartProject}
             className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-heading font-bold uppercase tracking-wider cursor-pointer shadow-lg transition-all ${
               isLight
-                ? 'bg-[#390099] text-white hover:bg-[#2E007A] shadow-glow-purple'
-                : 'btn-teevra-lime shadow-glow-lime'
+                ? 'bg-[#121212] text-white hover:bg-[#262626] shadow-md'
+                : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
             }`}
           >
             <span>Start A Project</span>
@@ -97,7 +91,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartProject }) => {
                 : 'btn-teevra-glass'
             }`}
           >
-            <Mail className={`w-4 h-4 ${isLight ? 'text-[#390099]' : 'text-[#AAFF00]'}`} />
+            <Mail className={`w-4 h-4 ${isLight ? 'text-[#FF0054]' : 'text-[#FF0054]'}`} />
             <span>Direct Email Studio</span>
           </button>
         </div>

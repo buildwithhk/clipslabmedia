@@ -38,7 +38,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold mb-4 sm:mb-6 border ${
               isLight
                 ? 'bg-white border-[#E5E0D8] text-[#390099]'
-                : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                : 'bg-[#161616] border-white/10 text-[#FF0054]'
             }`}
           >
             <span>FULL CAMPAIGN MACHINE</span>
@@ -46,11 +46,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
 
           <h1 className="font-heading font-extrabold text-4xl sm:text-6xl md:text-7xl tracking-tight leading-[0.98] uppercase mb-4 sm:mb-6">
             FROM PRODUCT IDEA<br />
-            <span
-              className={`font-editorial-serif italic font-normal lowercase ${
-                isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-              }`}
-            >
+            <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
               to market-ready campaign.
             </span>
           </h1>
@@ -72,13 +68,13 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
               className={`p-5 sm:p-8 lg:p-10 rounded-2xl border transition-all grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start sm:items-center shadow-sm ${
                 isLight
                   ? 'bg-white border-[#E5E0D8] hover:border-[#390099]/50'
-                  : 'bg-[#121212] border-white/10 hover:border-[#AAFF00]/40'
+                  : 'bg-[#121212] border-white/10 hover:border-[#FF0054]/40'
               }`}
             >
               <div className="lg:col-span-1">
                 <span
                   className={`font-mono text-3xl sm:text-4xl lg:text-5xl font-extrabold ${
-                    isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                    isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                   }`}
                 >
                   {step.step}
@@ -121,7 +117,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
               >
                 <p
                   className={`text-xs font-mono uppercase tracking-wider font-bold ${
-                    isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                    isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                   }`}
                 >
                   Stage Deliverables:
@@ -136,7 +132,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                     >
                       <CheckCircle2
                         className={`w-3.5 h-3.5 flex-shrink-0 ${
-                          isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                          isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                         }`}
                       />
                       <span>{out}</span>
@@ -172,7 +168,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
           <div className="max-w-3xl mb-8 sm:mb-10">
             <span
               className={`text-xs font-mono uppercase tracking-widest font-bold mb-2 block ${
-                isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                isLight ? 'text-[#390099]' : 'text-[#FF0054]'
               }`}
             >
               INTERACTIVE CONFIGURATOR
@@ -216,7 +212,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                   className={`px-3 py-1 text-xs font-mono font-bold rounded-full ${
                     isLight
                       ? 'bg-[#390099] text-white'
-                      : 'bg-[#AAFF00] text-[#080808]'
+                      : 'bg-[#FF0054] text-white'
                   }`}
                 >
                   Included
@@ -235,7 +231,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                   <span>Social Ad Cutdowns & Hook Variations:</span>
                   <span
                     className={`font-mono text-sm sm:text-base font-bold ${
-                      isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                      isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                     }`}
                   >
                     {cutdownCount} Variations
@@ -249,7 +245,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                   value={cutdownCount}
                   onChange={(e) => setCutdownCount(parseInt(e.target.value))}
                   className={`w-full cursor-pointer ${
-                    isLight ? 'accent-[#390099]' : 'accent-[#AAFF00]'
+                    isLight ? 'accent-[#390099]' : 'accent-[#FF0054]'
                   }`}
                 />
                 <div
@@ -330,7 +326,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                     needMultiRatio
                       ? isLight
                         ? 'bg-[#390099] text-white shadow-glow-purple-sm'
-                        : 'bg-[#AAFF00] text-[#080808] shadow-glow-lime-sm'
+                        : 'bg-[#FF0054] text-white shadow-glow-pink'
                       : isLight
                         ? 'bg-neutral-200 text-neutral-600'
                         : 'bg-white/10 text-neutral-400'
@@ -347,13 +343,13 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                 className={`p-6 sm:p-8 rounded-2xl border text-center lg:text-left space-y-6 ${
                   isLight
                     ? 'bg-[#FAF9F6] border-[#390099]/30 shadow-xl'
-                    : 'bg-[#161616] border-[#AAFF00]/30 shadow-glow-lime-sm'
+                    : 'bg-[#161616] border-[#FF0054]/30 shadow-glow-pink'
                 }`}
               >
                 <div>
                   <span
                     className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
-                      isLight ? 'text-[#390099]' : 'text-[#AAFF00]'
+                      isLight ? 'text-[#390099]' : 'text-[#FF0054]'
                     }`}
                   >
                     ESTIMATED PRODUCTION SCOPE
@@ -375,7 +371,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                       isLight ? 'text-[#6E6860]' : 'text-neutral-400'
                     }`}
                   >
-                    Estimated turnaround: <strong className={isLight ? 'text-[#390099]' : 'text-[#AAFF00]'}>{estimatedDays}</strong> (post-brief approval)
+                    Estimated turnaround: <strong className={isLight ? 'text-[#390099]' : 'text-[#FF0054]'}>{estimatedDays}</strong> (post-brief approval)
                   </p>
                 </div>
 
@@ -406,7 +402,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                   )}
                   <div
                     className={`flex justify-between pt-2 border-t font-bold ${
-                      isLight ? 'border-[#E5E0D8] text-[#390099]' : 'border-white/10 text-[#AAFF00]'
+                      isLight ? 'border-[#E5E0D8] text-[#390099]' : 'border-white/10 text-[#FF0054]'
                     }`}
                   >
                     <span>Full Commercial Rights</span>
@@ -419,7 +415,7 @@ export const CampaignsPage: React.FC<CampaignsPageProps> = ({ onStartCampaignPla
                   className={`w-full py-3.5 sm:py-4 rounded-full font-heading font-bold text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 cursor-pointer ${
                     isLight
                       ? 'bg-[#390099] text-white hover:bg-[#2E007A] shadow-glow-purple'
-                      : 'btn-teevra-lime shadow-glow-lime-sm'
+                      : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                   }`}
                 >
                   <span>Commission This Scope</span>

@@ -23,7 +23,7 @@ export const CreativeProcess: React.FC = () => {
               className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-widest uppercase font-bold mb-3 sm:mb-4 border ${
                 isLight
                   ? 'bg-[#FFFFFF] border-[#E2DDD5] text-[#121212]'
-                  : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+                  : 'bg-[#161616] border-white/10 text-[#FF0054]'
               }`}
             >
               <span>DIRECTOR WORKFLOW // STEP BY STEP</span>
@@ -91,7 +91,7 @@ export const CreativeProcess: React.FC = () => {
                 <ul className="space-y-2 border-t border-[#E2DDD5]/60 dark:border-white/10 pt-4">
                   {step.details.map((detail, dIdx) => (
                     <li key={dIdx} className="text-[11px] flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#AAFF00] flex-shrink-0 mt-1.5" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FF0054] flex-shrink-0 mt-1.5" />
                       <span className={isLight ? 'text-[#6B665E]' : 'text-neutral-400'}>
                         {detail}
                       </span>

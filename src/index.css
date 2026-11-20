@@ -29,14 +29,14 @@
     --text-main: #FFFFFF;         /* Crisp white */
     --text-muted: #A3A3A3;        /* Muted gray */
     --border-color: rgba(255, 255, 255, 0.1);
-    --border-hover: #AAFF00;
-    --brand-primary: #AAFF00;     /* Electric Lime */
-    --brand-primary-hover: #B8FF1F;
-    --brand-primary-text: #080808;
+    --border-hover: #FF0054;
+    --brand-primary: #FF0054;     /* Signature Pink */
+    --brand-primary-hover: #E0004A;
+    --brand-primary-text: #FFFFFF;
     --brand-highlight: #FF0054;   /* Hot Pink */
     --brand-lime: #AAFF00;
-    --selection-bg: #AAFF00;
-    --selection-text: #080808;
+    --selection-bg: #FF0054;
+    --selection-text: #FFFFFF;
   }
 
   html {
@@ -96,7 +96,7 @@ html.dark .bg-studio-grid {
 }
 
 html.dark .bg-radial-ambient {
-  background: radial-gradient(circle at 50% 0%, rgba(170, 255, 0, 0.08) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 0, 84, 0.08) 0%, transparent 60%);
 }
 
 /* Custom Scrollbar */
@@ -146,7 +146,7 @@ html.dark ::-webkit-scrollbar-thumb {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 html.dark .btn-brand-primary:hover {
-  box-shadow: 0 0 25px rgba(170, 255, 0, 0.35);
+  box-shadow: 0 0 25px rgba(255, 0, 84, 0.35);
 }
 
 .btn-brand-secondary {

@@ -115,7 +115,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                     e.stopPropagation();
                     setIsPlayingInline(true);
                   }}
-                  className="w-12 h-12 rounded-full bg-[#AAFF00] text-[#080808] flex items-center justify-center shadow-xl cursor-pointer hover:bg-white"
+                  className="w-12 h-12 rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-xl shadow-[#FF0054]/40 cursor-pointer hover:bg-white hover:text-[#FF0054] transition-all"
                   aria-label={`Play ${project.title} in place`}
                 >
                   <Play className="w-5 h-5 fill-current ml-0.5" />
@@ -124,10 +124,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
               {/* Overlay Project Title for mobile-reel look */}
               <div className="absolute bottom-0 inset-x-0 p-4 z-10">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#AAFF00] font-bold block mb-1">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#FF0054] font-bold block mb-1">
                   {project.category}
                 </span>
-                <h3 className="font-heading font-extrabold text-sm sm:text-base tracking-tight uppercase leading-tight text-white group-hover:text-[#AAFF00] transition-colors line-clamp-2">
+                <h3 className="font-heading font-extrabold text-sm sm:text-base tracking-tight uppercase leading-tight text-white group-hover:text-[#FF0054] transition-colors line-clamp-2">
                   {project.title}
                 </h3>
               </div>
@@ -237,7 +237,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   e.stopPropagation();
                   setIsPlayingInline(true);
                 }}
-                className="w-12 h-12 rounded-full bg-[#AAFF00] text-[#080808] flex items-center justify-center shadow-lg cursor-pointer hover:bg-white"
+                className="w-12 h-12 rounded-full bg-[#FF0054] text-white flex items-center justify-center shadow-lg shadow-[#FF0054]/40 cursor-pointer hover:bg-white hover:text-[#FF0054] transition-all"
                 aria-label={`Play ${project.title} in place`}
               >
                 <Play className="w-5 h-5 fill-current ml-0.5" />

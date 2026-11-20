@@ -26,18 +26,14 @@ export const FAQSection: React.FC = () => {
         <div className="text-center mb-12 sm:mb-16">
           <div
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold mb-4 border ${
-              isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#AAFF00]'
+              isLight ? 'bg-white border-[#E5E0D8] text-[#390099]' : 'bg-[#161616] border-white/10 text-[#FF0054]'
             }`}
           >
             <span>FAQ & CLARITY</span>
           </div>
           <h2 className="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] uppercase mb-4">
             FREQUENTLY ASKED<br />
-            <span
-              className={`font-editorial-serif italic font-normal lowercase ${
-                isLight ? 'text-[#FF0054]' : 'text-[#AAFF00]'
-              }`}
-            >
+            <span className="font-editorial-serif italic font-normal lowercase text-[#FF0054]">
               questions.
             </span>
           </h2>
@@ -69,7 +65,7 @@ export const FAQSection: React.FC = () => {
                     className={`font-heading font-bold text-base sm:text-lg lg:text-xl transition-colors leading-snug ${
                       isLight
                         ? 'text-[#171717] hover:text-[#390099]'
-                        : 'text-white hover:text-[#AAFF00]'
+                        : 'text-white hover:text-[#FF0054]'
                     }`}
                   >
                     {faq.question}
@@ -79,7 +75,7 @@ export const FAQSection: React.FC = () => {
                       isOpen
                         ? isLight
                           ? 'bg-[#390099] text-white'
-                          : 'bg-[#AAFF00] text-[#080808]'
+                          : 'bg-[#FF0054] text-white'
                         : isLight
                         ? 'bg-[#F0EDE7] text-[#6E6860] border border-[#E5E0D8]'
                         : 'bg-[#181818] text-neutral-400 border border-white/10'
