@@ -18,3 +18,7 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 *.zip
+
+# Persistent user data on live server (immune to Git deploy wipes)
+public/api/*.user.*
+dist/api/*.user.*

@@ -17,11 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 define('AUTH_INCLUDED', true);
-$configFile = __DIR__ . '/admin_config.php';
+$userConfigFile = __DIR__ . '/admin_config.user.php';
+$defaultConfigFile = __DIR__ . '/admin_config.php';
 
-function loadAdminConfig($file) {
-    if (file_exists($file)) {
-        $cfg = @include $file;
+// Auto-seed userConfigFile from defaultConfigFile if not present
+if (!file_exists($userConfigFile) && file_exists($defaultConfigFile)) {
+    @copy($defaultConfigFile, $userConfigFile);
+}
+
+function loadAdminConfig($userFile, $defaultFile) {
+    if (file_exists($userFile)) {
+        $cfg = @include $userFile;
+        if (is_array($cfg) && !empty($cfg['password'])) {
+            return $cfg;
+        }
+    }
+    if (file_exists($defaultFile)) {
+        $cfg = @include $defaultFile;
         if (is_array($cfg) && !empty($cfg['password'])) {
             return $cfg;
         }
@@ -33,12 +45,14 @@ function loadAdminConfig($file) {
     ];
 }
 
-function saveAdminConfig($file, $data) {
+function saveAdminConfig($userFile, $defaultFile, $data) {
     $code = "<?php\nif (!defined('AUTH_INCLUDED')) {\n    http_response_code(403);\n    exit('Access Denied');\n}\n\nreturn " . var_export($data, true) . ";\n";
-    return @file_put_contents($file, $code, LOCK_EX) !== false;
+    $okUser = @file_put_contents($userFile, $code, LOCK_EX);
+    $okDefault = @file_put_contents($defaultFile, $code, LOCK_EX);
+    return ($okUser !== false || $okDefault !== false);
 }
 
-$config = loadAdminConfig($configFile);
+$config = loadAdminConfig($userConfigFile, $defaultConfigFile);
 
 // Handle GET: Retrieve current credentials for the authenticated security modal
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -110,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $config['password'] = $newPassword;
         $config['updatedAt'] = date('c');
 
-        $saved = saveAdminConfig($configFile, $config);
+        $saved = saveAdminConfig($userConfigFile, $defaultConfigFile, $config);
 
         if (!$saved) {
             http_response_code(500);

@@ -35,6 +35,10 @@ import {
   Edit3,
   Upload,
   Image as ImageIcon,
+  Download,
+  Code,
+  Terminal,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface AdminDashboardPageProps {
@@ -96,6 +100,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [editingTitles, setEditingTitles] = useState<Record<string, string>>({});
   const [editingThumbs, setEditingThumbs] = useState<Record<string, string>>({});
   const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedTS, setCopiedTS] = useState(false);
+  const [exportView, setExportView] = useState<'ts' | 'json'>('ts');
 
   // Administrator Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -485,12 +491,49 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setActiveTab(newFormat === '9:16' ? 'vertical' : 'widescreen');
   };
 
+  const generateProjectsTS = (): string => {
+    return `import { ProjectItem } from '../types';\n\nexport const INITIAL_PROJECTS: ProjectItem[] = ${JSON.stringify(
+      projects,
+      null,
+      2
+    )};\n\nexport const PROJECTS_DATA = INITIAL_PROJECTS;\n`;
+  };
+
+  const handleCopyTS = () => {
+    navigator.clipboard.writeText(generateProjectsTS());
+    setCopiedTS(true);
+    showToast('📋 Copied projects.ts TypeScript code to clipboard!');
+    setTimeout(() => setCopiedTS(false), 2500);
+  };
+
   const handleCopyCode = () => {
     const json = exportProjectsJSON();
     navigator.clipboard.writeText(json);
     setCopiedCode(true);
     showToast('📋 Copied full project configuration to clipboard!');
     setTimeout(() => setCopiedCode(false), 2500);
+  };
+
+  const handleDownloadFile = (filename: string, content: string, mime: string) => {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`💾 Downloaded ${filename}!`);
+  };
+
+  const handleDeleteProject = async (projId: string, currentTitle: string) => {
+    const nextProjects = projects.filter((p) => p.id !== projId);
+    deleteProject(projId);
+    setConfirmDeleteId(null);
+    showToast(`🗑️ Removing "${currentTitle}"... Syncing to website...`);
+    await syncToServer(showreelVideoUrl, showreelThumbnail, nextProjects);
+    showToast(`🚀 Removed "${currentTitle}" and updated website live!`);
   };
 
   const verticalProjects = projects.filter(
@@ -507,13 +550,25 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       ? widescreenProjects
       : projects;
 
-  const handleMoveProject = (projId: string, direction: 'up' | 'down') => {
+  const handleMoveProject = async (projId: string, direction: 'up' | 'down') => {
     const currentIdx = displayedProjects.findIndex((p) => p.id === projId);
     if (currentIdx === -1) return;
     const targetIdx = direction === 'up' ? currentIdx - 1 : currentIdx + 1;
     if (targetIdx < 0 || targetIdx >= displayedProjects.length) return;
     const targetProj = displayedProjects[targetIdx];
     swapProjects(projId, targetProj.id);
+
+    // Compute swapped list across all projects and persist to server
+    const indexA = projects.findIndex((p) => p.id === projId);
+    const indexB = projects.findIndex((p) => p.id === targetProj.id);
+    if (indexA !== -1 && indexB !== -1) {
+      const next = [...projects];
+      const temp = next[indexA];
+      next[indexA] = next[indexB];
+      next[indexB] = temp;
+      syncToServer(showreelVideoUrl, showreelThumbnail, next);
+    }
+
     const title = getProjectTitle(displayedProjects[currentIdx]);
     showToast(`↕️ Moved "${title}" ${direction === 'up' ? 'up' : 'down'}`);
   };
@@ -1065,11 +1120,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                               <div className="flex items-center gap-1 bg-red-500/10 border border-red-500/40 rounded-lg p-0.5">
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    deleteProject(proj.id);
-                                    setConfirmDeleteId(null);
-                                    showToast(`🗑️ Removed "${currentTitle}" from portfolio`);
-                                  }}
+                                  onClick={() => handleDeleteProject(proj.id, currentTitle)}
                                   className="px-2 py-1 rounded bg-red-500 text-white text-[10px] font-mono font-bold hover:bg-red-600 cursor-pointer shadow-xs"
                                   title="Confirm delete"
                                 >
@@ -1656,36 +1707,125 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           <div className="max-w-3xl mx-auto space-y-6">
             <div className="border-b pb-4 border-[#E2DDD5] dark:border-white/10">
               <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#FF0054]">
-                STORAGE & BACKUP
+                STORAGE & CODE SYNCHRONIZATION
               </span>
               <h2 className="font-heading font-extrabold text-2xl sm:text-3xl uppercase tracking-tight mt-1">
-                Data Persistence & Permanent Code Export
+                Data Persistence & Code Protection
               </h2>
               <p className="text-xs font-mono text-[#5E5A53] dark:text-neutral-400 mt-1">
-                Your video links are automatically saved in browser storage. You can also copy your projects as JSON to update `projects.ts` permanently.
+                Any video you add, remove, or edit is stored safely on the live server and will NEVER be erased by code redeployments.
               </p>
             </div>
 
+            {/* Permanent Protection Info Card */}
+            <div className={`p-5 rounded-2xl border flex items-start gap-3.5 ${
+              isLight ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-emerald-500/10 border-emerald-500/30'
+            }`}>
+              <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+              <div className="space-y-1.5 text-xs font-mono">
+                <p className="font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                  Automatic Live Retention Active
+                </p>
+                <p className={isLight ? 'text-neutral-700' : 'text-neutral-300'}>
+                  Your videos are stored in server-side persistent storage (<code className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-white/10 text-[11px]">videos.user.json</code>).
+                  Every GitHub deployment automatically preserves your live videos before building and commits them directly to your repository code.
+                </p>
+                <div className="pt-2">
+                  <span className="text-[11px] text-[#7D766D] dark:text-neutral-400 block mb-1">
+                    To pull live video changes into your local VS Code / repository anytime, run:
+                  </span>
+                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-mono text-[11px] border ${
+                    isLight ? 'bg-white border-[#E2DDD5] text-black' : 'bg-black/40 border-white/15 text-emerald-400'
+                  }`}>
+                    <Terminal className="w-3.5 h-3.5 text-[#FF0054]" />
+                    <span>npm run sync-videos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Code Export & Download Card */}
             <div className={`p-6 rounded-3xl border space-y-4 ${
               isLight ? 'bg-white border-[#E2DDD5]' : 'bg-[#141414] border-white/10'
             }`}>
-              <div className="flex items-center justify-between">
-                <span className="font-heading font-bold text-sm uppercase">
-                  Export Projects Configuration
-                </span>
-                <button
-                  onClick={handleCopyCode}
-                  className="px-4 py-2 rounded-xl text-xs font-mono uppercase bg-[#121212] text-white dark:bg-[#AAFF00] dark:text-black flex items-center gap-1.5 cursor-pointer font-bold"
-                >
-                  {copiedCode ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedCode ? 'Copied!' : 'Copy JSON'}</span>
-                </button>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="font-heading font-bold text-sm uppercase">
+                    Export Code Snippets
+                  </span>
+                  <div className="flex rounded-lg border border-[#E2DDD5] dark:border-white/15 p-0.5 text-[11px] font-mono">
+                    <button
+                      type="button"
+                      onClick={() => setExportView('ts')}
+                      className={`px-2.5 py-1 rounded-md transition-all cursor-pointer font-bold ${
+                        exportView === 'ts'
+                          ? 'bg-[#FF0054] text-white shadow-xs'
+                          : 'text-[#7D766D] dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                      }`}
+                    >
+                      projects.ts
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportView('json')}
+                      className={`px-2.5 py-1 rounded-md transition-all cursor-pointer font-bold ${
+                        exportView === 'json'
+                          ? 'bg-[#FF0054] text-white shadow-xs'
+                          : 'text-[#7D766D] dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                      }`}
+                    >
+                      videos.json
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {exportView === 'ts' ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCopyTS}
+                        className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-[#121212] text-white dark:bg-white dark:text-black flex items-center gap-1.5 cursor-pointer font-bold transition-all hover:scale-[1.02]"
+                      >
+                        {copiedTS ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedTS ? 'Copied TS!' : 'Copy TS Code'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadFile('projects.ts', generateProjectsTS(), 'text/typescript')}
+                        className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-[#FF0054] text-white flex items-center gap-1.5 cursor-pointer font-bold transition-all hover:scale-[1.02]"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Download projects.ts</span>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCopyCode}
+                        className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-[#121212] text-white dark:bg-white dark:text-black flex items-center gap-1.5 cursor-pointer font-bold transition-all hover:scale-[1.02]"
+                      >
+                        {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedCode ? 'Copied JSON!' : 'Copy JSON'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadFile('videos.json', exportProjectsJSON(), 'application/json')}
+                        className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-[#FF0054] text-white flex items-center gap-1.5 cursor-pointer font-bold transition-all hover:scale-[1.02]"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Download videos.json</span>
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
 
               <textarea
                 readOnly
-                value={exportProjectsJSON()}
-                rows={10}
+                value={exportView === 'ts' ? generateProjectsTS() : exportProjectsJSON()}
+                rows={11}
                 className={`w-full p-3 rounded-xl text-[11px] font-mono border select-all ${
                   isLight ? 'bg-[#F7F6F2] border-[#E2DDD5] text-black' : 'bg-[#181818] border-white/15 text-neutral-300'
                 }`}
@@ -1701,9 +1841,11 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   </p>
                 </div>
                 <button
-                  onClick={() => {
+                  type="button"
+                  onClick={async () => {
                     if (window.confirm('Are you sure you want to reset all projects and showreel to default?')) {
                       resetProjects();
+                      await syncToServer('/assets/sample-reel.mp4', 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1400&auto=format&fit=crop', []);
                       showToast('🔄 Portfolio reset to original defaults');
                     }
                   }}

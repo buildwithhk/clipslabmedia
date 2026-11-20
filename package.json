@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync-videos": "node scripts/sync-live-videos.js",
+    "pull-live": "node scripts/sync-live-videos.js"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

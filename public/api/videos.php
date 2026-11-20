@@ -16,12 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+$userFile = __DIR__ . '/videos.user.json';
 $dataFile = __DIR__ . '/videos.json';
+
+// Seed userFile from dataFile if userFile doesn't exist yet to permanently preserve custom videos
+if (!file_exists($userFile) && file_exists($dataFile)) {
+    @copy($dataFile, $userFile);
+}
+
+// Active storage file to serve from: prefer userFile (which is ignored by Git and never wiped), otherwise dataFile
+$activeReadFile = (file_exists($userFile) && filesize($userFile) > 10) ? $userFile : $dataFile;
 
 // Handle GET: Return current live videos
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (file_exists($dataFile)) {
-        $content = @file_get_contents($dataFile);
+    if (file_exists($activeReadFile)) {
+        $content = @file_get_contents($activeReadFile);
         if ($content !== false && strlen(trim($content)) > 0) {
             echo $content;
             exit;
@@ -73,17 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'updatedAt' => date('c')
     ];
 
-    $result = @file_put_contents(
-        $dataFile,
-        json_encode($dataToSave, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    // Save to BOTH userFile (which is ignored by Git and never wiped by redeployment) and dataFile
+    $encoded = json_encode($dataToSave, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    $resUser = @file_put_contents($userFile, $encoded, LOCK_EX);
+    $resData = @file_put_contents($dataFile, $encoded, LOCK_EX);
 
-    if ($result === false) {
+    if ($resUser === false && $resData === false) {
         http_response_code(500);
         echo json_encode([
             'status' => 'error',
-            'message' => 'Could not save videos.json. Check directory write permissions.'
+            'message' => 'Could not save videos. Check directory write permissions.'
         ]);
         exit;
     }
