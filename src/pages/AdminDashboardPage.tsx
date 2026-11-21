@@ -167,17 +167,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
     // 2. Fallback to localStorage and master default credentials
     if (!authenticated) {
-      const validIds = ['admin', 'harsh', 'clipslab'];
+      const validIds = ['admin', 'harsh', 'clipslab', 'harshit@5500'];
       const customUid = localStorage.getItem('clipslab_admin_uid');
       if (customUid) {
         validIds.push(customUid.toLowerCase());
       }
 
-      const savedPassword = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
+      const savedPassword = localStorage.getItem('clipslab_admin_pwd') || 'Harshit@#PUKU8924';
 
       // Check if matches either custom saved credentials OR master default credentials
       const matchesCustom = validIds.includes(inputId) && inputPwd === savedPassword;
-      const matchesMasterDefault = ['admin', 'harsh', 'clipslab'].includes(inputId) && inputPwd === 'clipslab2026';
+      const matchesMasterDefault =
+        ['admin', 'harsh', 'clipslab', 'harshit@5500'].includes(inputId) &&
+        (inputPwd === 'Harshit@#PUKU8924' || inputPwd === 'clipslab2026');
 
       if (matchesCustom || matchesMasterDefault) {
         authenticated = true;
@@ -224,10 +226,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const handleSaveNewCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanPwd = newPassword.trim();
-    const cleanUid = (newUserId.trim() || 'admin').toLowerCase();
+    const cleanUid = (newUserId.trim() || 'harshit@5500').toLowerCase();
 
     if (!cleanPwd) {
       showToast('⚠️ Password cannot be empty.');
+      return;
+    }
+
+    // Confirmation pop-up: confirm replacing default administrator credentials
+    const isConfirmed = window.confirm(
+      `⚠️ CONFIRM DEFAULT PASSWORD REPLACEMENT:\n\nAre you sure you want to permanently replace the administrator credentials in the codebase?\n\n• New User ID: ${cleanUid}\n• New Password: ${cleanPwd}\n\nThis will update your master credentials across all devices.`
+    );
+
+    if (!isConfirmed) {
       return;
     }
 
@@ -775,8 +786,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
             {/* Security / Change Credentials Button */}
             <button
               onClick={async () => {
-                const currentUid = localStorage.getItem('clipslab_admin_uid') || 'admin';
-                const currentPwd = localStorage.getItem('clipslab_admin_pwd') || 'clipslab2026';
+                const currentUid = localStorage.getItem('clipslab_admin_uid') || 'harshit@5500';
+                const currentPwd = localStorage.getItem('clipslab_admin_pwd') || 'Harshit@#PUKU8924';
                 setNewUserId(currentUid);
                 setNewPassword(currentPwd);
                 setIsCredsModalOpen(true);
@@ -793,7 +804,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                       }
                       if (data.password) {
                         // Only overwrite local password if server has a custom password or local is still default
-                        if (data.password !== 'clipslab2026' || currentPwd === 'clipslab2026') {
+                        if (data.password !== 'Harshit@#PUKU8924' || currentPwd === 'Harshit@#PUKU8924') {
                           setNewPassword(data.password);
                           localStorage.setItem('clipslab_admin_pwd', data.password);
                         }
