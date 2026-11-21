@@ -613,18 +613,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
             {/* Error Message if any */}
             {loginError && (
-              <div className="mb-5 p-3.5 rounded-2xl bg-[#FF0054]/10 border border-[#FF0054]/30 text-xs font-mono space-y-2">
+              <div className="mb-5 p-3.5 rounded-2xl bg-[#FF0054]/10 border border-[#FF0054]/30 text-xs font-mono">
                 <div className="flex items-center gap-2.5 text-[#FF0054] font-bold">
                   <ShieldAlert className="w-4 h-4 flex-shrink-0" />
                   <span>{loginError}</span>
-                </div>
-                <div className={`pt-2 border-t border-[#FF0054]/20 text-[11px] ${isLight ? 'text-[#5E5A53]' : 'text-neutral-400'} leading-relaxed`}>
-                  <p>If your custom credentials were reset during a website deployment, use the factory default:</p>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span>User ID: <code className="font-bold text-[#FF0054]">admin</code> or <code className="font-bold text-[#FF0054]">harsh</code></span>
-                    <span>•</span>
-                    <span>Password: <code className="font-bold text-[#AAFF00]">clipslab2026</code></span>
-                  </p>
                 </div>
               </div>
             )}
@@ -639,7 +631,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   type="text"
                   value={loginUserId}
                   onChange={(e) => setLoginUserId(e.target.value)}
-                  placeholder="e.g. admin or harsh"
+                  placeholder="Enter User ID"
                   required
                   autoFocus
                   className={`w-full px-4 py-2.5 rounded-xl text-xs font-mono border outline-none transition-colors ${
@@ -1891,7 +1883,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   type="text"
                   value={newUserId}
                   onChange={(e) => setNewUserId(e.target.value)}
-                  placeholder="e.g. admin or harsh"
+                  placeholder="Enter new User ID"
                   required
                   className={`w-full px-3 py-2 text-xs font-mono rounded-lg border outline-none ${
                     isLight ? 'bg-[#F7F6F2] border-[#E2DDD5]' : 'bg-[#1E1E1E] border-white/10 text-white'

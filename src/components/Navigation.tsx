@@ -187,7 +187,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30 hover:scale-[1.02]'
               }`}
             >
-              <span>LET'S CREATE SOMETHING</span>
+              <span>GET ADS FOR YOUR BRAND</span>
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
 
@@ -272,7 +272,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     : 'bg-[#FF0054] text-white hover:bg-[#e0004a] shadow-lg shadow-[#FF0054]/30'
                 }`}
               >
-                <span>LET'S CREATE SOMETHING</span>
+                <span>GET ADS FOR YOUR BRAND</span>
                 <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </button>
               <p className="text-[10px] font-mono text-center uppercase tracking-widest text-[#6B665E] dark:text-neutral-500">
