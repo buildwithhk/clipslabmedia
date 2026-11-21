@@ -57,20 +57,51 @@ async function syncVideos() {
       return false;
     }
 
+    // Check local existing videos.json to preserve custom showreel if server returned dummy
+    let localExisting = {};
+    try {
+      if (fs.existsSync(videosJsonPath)) {
+        localExisting = JSON.parse(fs.readFileSync(videosJsonPath, 'utf-8'));
+      }
+    } catch {}
+
+    const liveShowreel = String(data.showreelVideoUrl || '').trim();
+    const localShowreel = String(localExisting.showreelVideoUrl || '').trim();
+
+    let resolvedShowreel = liveShowreel;
+    let resolvedThumbnail = data.showreelThumbnail || localExisting.showreelThumbnail || '';
+
+    // If live returned sample reel or empty, but local has a custom showreel, preserve local!
+    if (localShowreel && localShowreel !== '/assets/sample-reel.mp4') {
+      if (!liveShowreel || liveShowreel === '/assets/sample-reel.mp4') {
+        resolvedShowreel = localShowreel;
+        resolvedThumbnail = localExisting.showreelThumbnail || resolvedThumbnail;
+      }
+    }
+
+    const mergedData = {
+      ...data,
+      showreelVideoUrl: resolvedShowreel || '/assets/sample-reel.mp4',
+      showreelThumbnail: resolvedThumbnail || 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1400&auto=format&fit=crop',
+    };
+
     // 1. Update public/api/videos.json
-    const formattedJson = JSON.stringify(data, null, 2) + '\n';
+    const formattedJson = JSON.stringify(mergedData, null, 2) + '\n';
     fs.writeFileSync(videosJsonPath, formattedJson, 'utf-8');
     console.log(`[sync-live] Updated ${path.relative(rootDir, videosJsonPath)} (${data.projects.length} projects).`);
 
     // 2. Generate and update src/data/projects.ts
     const tsContent = `import { ProjectItem } from '../types';
 
+export const INITIAL_SHOWREEL_URL = ${JSON.stringify(mergedData.showreelVideoUrl)};
+export const INITIAL_SHOWREEL_THUMBNAIL = ${JSON.stringify(mergedData.showreelThumbnail)};
+
 export const INITIAL_PROJECTS: ProjectItem[] = ${JSON.stringify(data.projects, null, 2)};
 
 export const PROJECTS_DATA = INITIAL_PROJECTS;
 `;
     fs.writeFileSync(projectsTsPath, tsContent, 'utf-8');
-    console.log(`[sync-live] Updated ${path.relative(rootDir, projectsTsPath)} with live projects.`);
+    console.log(`[sync-live] Updated ${path.relative(rootDir, projectsTsPath)} with live projects & showreel.`);
 
     return true;
   } catch (err) {

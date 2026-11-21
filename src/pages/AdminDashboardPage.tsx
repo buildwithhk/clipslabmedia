@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
 import { useTheme } from '../context/ThemeContext';
 import { parseVideoUrl, getEffectiveThumbnail } from '../utils/videoUtils';
@@ -86,6 +86,18 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   // Showreel edit state
   const [tempShowreelUrl, setTempShowreelUrl] = useState(showreelVideoUrl);
   const [tempShowreelThumb, setTempShowreelThumb] = useState(showreelThumbnail);
+
+  useEffect(() => {
+    if (showreelVideoUrl && showreelVideoUrl !== '/assets/sample-reel.mp4') {
+      setTempShowreelUrl(showreelVideoUrl);
+    }
+  }, [showreelVideoUrl]);
+
+  useEffect(() => {
+    if (showreelThumbnail && !showreelThumbnail.includes('sample-reel')) {
+      setTempShowreelThumb(showreelThumbnail);
+    }
+  }, [showreelThumbnail]);
 
   // New Video Form state
   const [newTitle, setNewTitle] = useState('');

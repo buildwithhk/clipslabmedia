@@ -1,5 +1,8 @@
 import { ProjectItem } from '../types';
 
+export const INITIAL_SHOWREEL_URL = "/assets/sample-reel.mp4";
+export const INITIAL_SHOWREEL_THUMBNAIL = "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1400&auto=format&fit=crop";
+
 export const INITIAL_PROJECTS: ProjectItem[] = [
   {
     "id": "project-1795263124855",

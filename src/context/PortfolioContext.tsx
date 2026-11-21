@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { ProjectItem } from '../types';
-import { INITIAL_PROJECTS } from '../data/projects';
+import { INITIAL_PROJECTS, INITIAL_SHOWREEL_URL, INITIAL_SHOWREEL_THUMBNAIL } from '../data/projects';
 import { getEffectiveThumbnail } from '../utils/videoUtils';
 import { GOOGLE_SCRIPT_URL } from '../config/contact';
 
@@ -64,13 +64,13 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   });
 
   const [showreelVideoUrl, setShowreelVideoUrlState] = useState<string>(() => {
-    return localStorage.getItem(SHOWREEL_VIDEO_KEY) || '/assets/sample-reel.mp4';
+    return localStorage.getItem(SHOWREEL_VIDEO_KEY) || INITIAL_SHOWREEL_URL || '/assets/sample-reel.mp4';
   });
 
   const [showreelThumbnail, setShowreelThumbnailState] = useState<string>(() => {
     const savedThumb = localStorage.getItem(SHOWREEL_THUMB_KEY);
-    const savedVideo = localStorage.getItem(SHOWREEL_VIDEO_KEY) || '/assets/sample-reel.mp4';
-    return getEffectiveThumbnail(savedVideo, savedThumb || undefined);
+    const savedVideo = localStorage.getItem(SHOWREEL_VIDEO_KEY) || INITIAL_SHOWREEL_URL || '/assets/sample-reel.mp4';
+    return getEffectiveThumbnail(savedVideo, savedThumb || INITIAL_SHOWREEL_THUMBNAIL || undefined);
   });
 
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
@@ -106,13 +106,23 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (!isMounted || !data || data.status !== 'success') return;
 
         if (data.showreelVideoUrl && typeof data.showreelVideoUrl === 'string') {
-          setShowreelVideoUrlState(data.showreelVideoUrl);
-          localStorage.setItem(SHOWREEL_VIDEO_KEY, data.showreelVideoUrl);
+          const localSaved = localStorage.getItem(SHOWREEL_VIDEO_KEY);
+          // If server has a custom video, update local cache
+          if (data.showreelVideoUrl !== '/assets/sample-reel.mp4' && data.showreelVideoUrl.trim() !== '') {
+            setShowreelVideoUrlState(data.showreelVideoUrl);
+            localStorage.setItem(SHOWREEL_VIDEO_KEY, data.showreelVideoUrl);
+          } else if (localSaved && localSaved !== '/assets/sample-reel.mp4' && localSaved.trim() !== '') {
+            // Self-healing: Local has a custom video, but server returned sample-reel (e.g. after a redeploy wipe).
+            // Sync the custom video back to the server in the background!
+            syncToServer(localSaved, localStorage.getItem(SHOWREEL_THUMB_KEY) || undefined, undefined);
+          }
         }
 
         if (data.showreelThumbnail && typeof data.showreelThumbnail === 'string') {
-          setShowreelThumbnailState(data.showreelThumbnail);
-          localStorage.setItem(SHOWREEL_THUMB_KEY, data.showreelThumbnail);
+          if (data.showreelThumbnail && !data.showreelThumbnail.includes('sample-reel')) {
+            setShowreelThumbnailState(data.showreelThumbnail);
+            localStorage.setItem(SHOWREEL_THUMB_KEY, data.showreelThumbnail);
+          }
         }
 
         if (Array.isArray(data.projects) && data.projects.length > 0) {
@@ -147,8 +157,20 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     customShowreelThumb?: string,
     customProjects?: ProjectItem[]
   ): Promise<boolean> => {
-    const urlToSave = customShowreelUrl !== undefined ? customShowreelUrl : showreelVideoUrlRef.current;
-    const thumbToSave = customShowreelThumb !== undefined ? customShowreelThumb : showreelThumbRef.current;
+    const localSaved = localStorage.getItem(SHOWREEL_VIDEO_KEY);
+    let urlToSave = customShowreelUrl !== undefined ? customShowreelUrl : showreelVideoUrlRef.current;
+    
+    // Never accidentally overwrite with sample-reel if local or ref has a custom video
+    if ((!urlToSave || urlToSave === '/assets/sample-reel.mp4') && localSaved && localSaved !== '/assets/sample-reel.mp4') {
+      urlToSave = localSaved;
+    }
+
+    const localThumb = localStorage.getItem(SHOWREEL_THUMB_KEY);
+    let thumbToSave = customShowreelThumb !== undefined ? customShowreelThumb : showreelThumbRef.current;
+    if ((!thumbToSave || thumbToSave.includes('sample-reel')) && localThumb && !localThumb.includes('sample-reel')) {
+      thumbToSave = localThumb;
+    }
+
     const projectsToSave = customProjects !== undefined ? customProjects : projectsRef.current;
 
     setIsSyncing(true);

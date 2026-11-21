@@ -63,15 +63,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Preserve existing fields if partially updated
     $existing = [];
-    if (file_exists($dataFile)) {
+    if (file_exists($userFile) && filesize($userFile) > 10) {
+        $existingRaw = @file_get_contents($userFile);
+        if ($existingRaw) {
+            $existing = json_decode($existingRaw, true) ?: [];
+        }
+    }
+    if (empty($existing) && file_exists($dataFile)) {
         $existingRaw = @file_get_contents($dataFile);
         if ($existingRaw) {
             $existing = json_decode($existingRaw, true) ?: [];
         }
     }
 
-    $showreelUrl = isset($payload['showreelVideoUrl']) ? trim($payload['showreelVideoUrl']) : ($existing['showreelVideoUrl'] ?? '');
-    $showreelThumb = isset($payload['showreelThumbnail']) ? trim($payload['showreelThumbnail']) : ($existing['showreelThumbnail'] ?? '');
+    $existingShowreel = trim($existing['showreelVideoUrl'] ?? '');
+    $existingThumb = trim($existing['showreelThumbnail'] ?? '');
+    $incomingShowreel = isset($payload['showreelVideoUrl']) ? trim($payload['showreelVideoUrl']) : '';
+    $incomingThumb = isset($payload['showreelThumbnail']) ? trim($payload['showreelThumbnail']) : '';
+
+    // Smart Showreel Preservation:
+    // If existing showreel is a custom video (e.g. YouTube), NEVER let an empty or dummy '/assets/sample-reel.mp4' overwrite it!
+    if (!empty($existingShowreel) && $existingShowreel !== '/assets/sample-reel.mp4') {
+        if (empty($incomingShowreel) || $incomingShowreel === '/assets/sample-reel.mp4') {
+            $showreelUrl = $existingShowreel;
+            $showreelThumb = !empty($existingThumb) ? $existingThumb : $incomingThumb;
+        } else {
+            $showreelUrl = $incomingShowreel;
+            $showreelThumb = !empty($incomingThumb) ? $incomingThumb : $existingThumb;
+        }
+    } else {
+        $showreelUrl = !empty($incomingShowreel) ? $incomingShowreel : $existingShowreel;
+        $showreelThumb = !empty($incomingThumb) ? $incomingThumb : $existingThumb;
+    }
+
     $projects = isset($payload['projects']) && is_array($payload['projects']) ? $payload['projects'] : ($existing['projects'] ?? []);
 
     $dataToSave = [
