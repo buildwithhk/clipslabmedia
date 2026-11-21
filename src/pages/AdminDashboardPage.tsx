@@ -103,16 +103,20 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [copiedTS, setCopiedTS] = useState(false);
   const [exportView, setExportView] = useState<'ts' | 'json'>('ts');
 
-  // Administrator Authentication State
+  // Administrator Authentication State — strictly isolated to this device's browser session
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return (
-      sessionStorage.getItem('clipslab_admin_auth') === 'true' ||
-      localStorage.getItem('clipslab_admin_auth') === 'true'
-    );
+    try {
+      if (typeof window !== 'undefined') {
+        // Enforce strict device isolation: remove legacy permanent localStorage auth
+        localStorage.removeItem('clipslab_admin_auth');
+      }
+      return sessionStorage.getItem('clipslab_admin_device_session') === 'true';
+    } catch {
+      return false;
+    }
   });
   const [loginUserId, setLoginUserId] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -200,19 +204,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       return;
     }
 
-    if (rememberMe) {
-      localStorage.setItem('clipslab_admin_auth', 'true');
-    } else {
-      sessionStorage.setItem('clipslab_admin_auth', 'true');
-    }
+    // Save authenticated state strictly into sessionStorage (isolated to this device/tab)
+    sessionStorage.setItem('clipslab_admin_device_session', 'true');
+    // Clean any persistent localStorage auth
+    localStorage.removeItem('clipslab_admin_auth');
     setIsAuthenticated(true);
-    setToastMessage('🔓 Administrator access unlocked. Welcome, Harsh!');
+    setToastMessage('🔓 Administrator access unlocked on this device. Welcome, Harsh!');
     setTimeout(() => setToastMessage(null), 3500);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('clipslab_admin_auth');
+    sessionStorage.removeItem('clipslab_admin_device_session');
     sessionStorage.removeItem('clipslab_admin_auth');
+    localStorage.removeItem('clipslab_admin_auth');
     setIsAuthenticated(false);
     onExit();
   };
@@ -670,16 +674,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-1">
-                <label className="flex items-center gap-2 text-xs font-mono cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="rounded border-[#E2DDD5] dark:border-white/20 text-[#FF0054] focus:ring-0 cursor-pointer"
-                  />
-                  <span className={isLight ? 'text-[#5E5A53]' : 'text-neutral-400'}>Remember session</span>
-                </label>
+              <div className="pt-1 flex items-center gap-2 text-[11px] font-mono text-[#5E5A53] dark:text-neutral-400">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#AAFF00] flex-shrink-0" />
+                <span>Isolated device session • Each device requires separate login</span>
               </div>
 
               <button
