@@ -5,7 +5,7 @@ if (!defined('AUTH_INCLUDED')) {
 }
 
 return [
-    'userId' => 'admin',
-    'password' => 'clipslab2026',
-    'updatedAt' => '2026-11-13T00:00:00Z'
+    'userId' => 'harshit@5500',
+    'password' => 'Harshit@#PUKU8924',
+    'updatedAt' => '2026-11-21T12:15:51+00:00'
 ];
